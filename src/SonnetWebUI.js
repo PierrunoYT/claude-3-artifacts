@@ -73,21 +73,21 @@ const SonnetWebUI = () => {
   }, [darkMode]);
 
   return (
-    <div className={`flex h-screen ${darkMode ? 'dark' : ''}`}>
+    <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
       {/* Left side - React rendering area */}
-      <div className="w-1/2 p-4 border-r bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-        <h2 className="text-2xl font-bold mb-4">React Rendering Area</h2>
+      <div className="w-1/2 p-6 border-r border-gray-200 dark:border-gray-700">
+        <h2 className="text-3xl font-bold mb-6 text-primary dark:text-primary-dark">React Rendering Area</h2>
         <Textarea
           value={reactCode}
           onChange={(e) => setReactCode(e.target.value)}
           placeholder="Paste your React component code here..."
-          className="mb-4 h-1/3"
+          className="mb-4 h-1/3 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
-        <Button onClick={renderReactCode} className="mb-4">
+        <Button onClick={renderReactCode} className="mb-6 bg-secondary hover:bg-secondary-dark text-white">
           <Play className="mr-2" />
           Render Component
         </Button>
-        <Card className="bg-gray-100 dark:bg-gray-800 p-4">
+        <Card className="bg-white dark:bg-gray-800 shadow-custom">
           <CardContent>
             {renderedComponent}
           </CardContent>
@@ -95,13 +95,13 @@ const SonnetWebUI = () => {
       </div>
 
       {/* Right side - Chat interface */}
-      <div className="w-1/2 p-4 flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Chat with Claude 3.5 Sonnet</h2>
+      <div className="w-1/2 p-6 flex flex-col">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-3xl font-bold text-primary dark:text-primary-dark">Chat with Claude 3.5 Sonnet</h2>
           <div className="flex items-center">
-            <Sun className="mr-2" />
-            <Switch checked={darkMode} onCheckedChange={toggleDarkMode} />
-            <Moon className="ml-2" />
+            <Sun className="mr-2 text-yellow-500" />
+            <Switch checked={darkMode} onCheckedChange={toggleDarkMode} className="bg-gray-300 dark:bg-gray-600" />
+            <Moon className="ml-2 text-blue-500" />
           </div>
         </div>
 
@@ -110,28 +110,32 @@ const SonnetWebUI = () => {
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
           placeholder="Enter your OpenRouter API key"
-          className="mb-2"
+          className="mb-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
         <Input
           type="text"
           value={siteUrl}
           onChange={(e) => setSiteUrl(e.target.value)}
           placeholder="Enter your site URL"
-          className="mb-2"
+          className="mb-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
         <Input
           type="text"
           value={appName}
           onChange={(e) => setAppName(e.target.value)}
           placeholder="Enter your app name"
-          className="mb-4"
+          className="mb-6 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
 
         {/* Chat messages */}
-        <div className="flex-grow overflow-y-auto mb-4">
+        <div className="flex-grow overflow-y-auto mb-6 custom-scrollbar">
           {chat.map((msg, index) => (
-            <div key={index} className={`mb-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-              <span className={`inline-block p-2 rounded-lg ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}>
+            <div key={index} className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+              <span className={`inline-block p-3 rounded-lg shadow-custom ${
+                msg.role === 'user' 
+                  ? 'bg-primary text-white' 
+                  : 'bg-white dark:bg-gray-800 text-text-light dark:text-text-dark'
+              }`}>
                 {msg.content}
               </span>
             </div>
@@ -145,9 +149,9 @@ const SonnetWebUI = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type your message..."
-            className="flex-grow mr-2"
+            className="flex-grow mr-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
           />
-          <Button onClick={sendMessage}>
+          <Button onClick={sendMessage} className="bg-primary hover:bg-primary-dark text-white">
             <Send className="mr-2" />
             Send
           </Button>
