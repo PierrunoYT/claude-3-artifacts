@@ -44,7 +44,11 @@ To start the development server:
    ```
    cd path/to/sonnet-web-ui
    ```
-3. Run the following command:
+3. Install the required dependencies:
+   ```
+   npm install
+   ```
+4. Run the following command to start the development server:
    ```
    npm start
    ```
@@ -52,6 +56,12 @@ To start the development server:
 This will run the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will automatically reload if you make changes to the code. You will see any lint errors in the console.
+
+If you encounter any issues with the `react-scripts` command not being recognized, try the following:
+
+1. Delete the `node_modules` folder and the `package-lock.json` file.
+2. Run `npm install` again to reinstall all dependencies.
+3. Then run `npm start` to start the development server.
 
 ## Project Structure
 
