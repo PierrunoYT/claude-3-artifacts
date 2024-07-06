@@ -39,11 +39,19 @@ Before you begin, ensure you have met the following requirements:
 
 To start the development server:
 
-```
-npm start
-```
+1. Open a terminal or command prompt.
+2. Navigate to the project directory:
+   ```
+   cd path/to/sonnet-web-ui
+   ```
+3. Run the following command:
+   ```
+   npm start
+   ```
 
 This will run the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will automatically reload if you make changes to the code. You will see any lint errors in the console.
 
 ## Project Structure
 
