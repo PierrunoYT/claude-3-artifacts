@@ -74,28 +74,8 @@ const SonnetWebUI = () => {
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
-      {/* Left side - React rendering area */}
-      <div className="w-1/2 p-6 border-r border-gray-200 dark:border-gray-700">
-        <h2 className="text-3xl font-bold mb-6 text-primary dark:text-primary-dark">React Rendering Area</h2>
-        <Textarea
-          value={reactCode}
-          onChange={(e) => setReactCode(e.target.value)}
-          placeholder="Paste your React component code here..."
-          className="mb-4 h-1/3 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
-        />
-        <Button onClick={renderReactCode} className="mb-6 bg-secondary hover:bg-secondary-dark text-white">
-          <Play className="mr-2" />
-          Render Component
-        </Button>
-        <Card className="bg-white dark:bg-gray-800 shadow-custom">
-          <CardContent>
-            {renderedComponent}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Right side - Chat interface */}
-      <div className="w-1/2 p-6 flex flex-col">
+      {/* Left side - Chat interface */}
+      <div className="w-1/2 p-6 flex flex-col border-r border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-3xl font-bold text-primary dark:text-primary-dark">Chat with Claude 3.5 Sonnet</h2>
           <div className="flex items-center">
@@ -156,6 +136,26 @@ const SonnetWebUI = () => {
             Send
           </Button>
         </div>
+      </div>
+
+      {/* Right side - React rendering area */}
+      <div className="w-1/2 p-6">
+        <h2 className="text-3xl font-bold mb-6 text-primary dark:text-primary-dark">React Rendering Area</h2>
+        <Textarea
+          value={reactCode}
+          onChange={(e) => setReactCode(e.target.value)}
+          placeholder="Paste your React component code here..."
+          className="mb-4 h-1/3 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
+        />
+        <Button onClick={renderReactCode} className="mb-6 bg-secondary hover:bg-secondary-dark text-white">
+          <Play className="mr-2" />
+          Render Component
+        </Button>
+        <Card className="bg-white dark:bg-gray-800 shadow-custom">
+          <CardContent>
+            {renderedComponent}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
