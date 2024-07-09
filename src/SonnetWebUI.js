@@ -93,25 +93,26 @@ const SonnetWebUI = () => {
               }
               render() {
                 if (this.state.hasError) {
-                  return React.createElement('div', { className: 'error' }, 
-                    'Error rendering component:\\n' + this.state.error.toString()
-                  );
+                  return <div className="error">
+                    Error rendering component:<br />
+                    {this.state.error.toString()}
+                  </div>;
                 }
                 return this.props.children;
               }
             };
             
-            const UserComponent = (() => {
+            const UserComponent = () => {
               ${reactCode}
-            })();
-
-            const App = () => {
-              return React.createElement(ErrorBoundary, null,
-                React.createElement(UserComponent)
-              );
             };
 
-            ReactDOM.render(React.createElement(App), document.getElementById('root'));
+            const App = () => (
+              <ErrorBoundary>
+                <UserComponent />
+              </ErrorBoundary>
+            );
+
+            ReactDOM.render(<App />, document.getElementById('root'));
           </script>
         </body>
       </html>
