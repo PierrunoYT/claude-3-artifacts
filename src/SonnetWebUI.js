@@ -271,7 +271,7 @@ const SonnetWebUI = () => {
           <Button
             onClick={saveApiKey}
             disabled={!apiKeyModified}
-            className="bg-primary hover:bg-primary-dark text-white dark:bg-primary-dark dark:hover:bg-primary dark:text-white disabled:opacity-50"
+            className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text disabled:opacity-50"
           >
             Save Key
           </Button>
@@ -325,11 +325,17 @@ const SonnetWebUI = () => {
               placeholder="Type your message..."
               className="flex-grow mr-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
             />
-            <Button onClick={() => setIsCode(!isCode)} className={`mr-2 ${isCode ? 'bg-secondary' : 'bg-gray-300'} hover:bg-secondary-dark text-white`}>
+            <Button 
+              onClick={() => setIsCode(!isCode)} 
+              className={`mr-2 ${isCode ? 'bg-secondary dark:bg-button-dark' : 'bg-gray-300 dark:bg-gray-600'} hover:bg-secondary-dark dark:hover:bg-button-dark-hover text-white dark:text-button-dark-text`}
+            >
               <Code className="mr-2" />
               Code
             </Button>
-            <Button onClick={sendMessage} className="bg-primary hover:bg-primary-dark text-white">
+            <Button 
+              onClick={sendMessage} 
+              className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text"
+            >
               <Send className="mr-2" />
               Send
             </Button>
