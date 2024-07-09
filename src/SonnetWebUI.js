@@ -14,6 +14,7 @@ const SonnetWebUI = () => {
   const [chat, setChat] = useState([]);
   const [isCode, setIsCode] = useState(false);
   const [apiKey, setApiKey] = useState(process.env.REACT_APP_OPENROUTER_API_KEY || '');
+  const [apiKeyModified, setApiKeyModified] = useState(false);
   const [reactCode, setReactCode] = useState('');
   const [iframeKey, setIframeKey] = useState(0);
 
@@ -22,17 +23,21 @@ const SonnetWebUI = () => {
   };
 
   useEffect(() => {
-    if (apiKey) {
-      localStorage.setItem('openRouterApiKey', apiKey);
-    }
-  }, [apiKey]);
-
-  useEffect(() => {
     const savedApiKey = localStorage.getItem('openRouterApiKey');
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
   }, []);
+
+  const handleApiKeyChange = (e) => {
+    setApiKey(e.target.value);
+    setApiKeyModified(true);
+  };
+
+  const saveApiKey = () => {
+    localStorage.setItem('openRouterApiKey', apiKey);
+    setApiKeyModified(false);
+  };
 
 
 
@@ -209,13 +214,22 @@ const SonnetWebUI = () => {
           </div>
         </div>
 
-        <Input
-          type="password"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="Enter your OpenRouter API key"
-          className="mb-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
-        />
+        <div className="flex mb-2">
+          <Input
+            type="password"
+            value={apiKey}
+            onChange={handleApiKeyChange}
+            placeholder="Enter your OpenRouter API key"
+            className="flex-grow mr-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
+          />
+          <Button
+            onClick={saveApiKey}
+            disabled={!apiKeyModified}
+            className="bg-primary hover:bg-primary-dark text-white disabled:opacity-50"
+          >
+            Save Key
+          </Button>
+        </div>
 
         {/* Chat messages */}
         <div className="flex-grow overflow-y-auto mb-6 custom-scrollbar">
