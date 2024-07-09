@@ -69,7 +69,7 @@ const SonnetWebUI = () => {
 
       setMessage('');
     }
-  }, [reactCode, setChat, setIframeKey, validateReactCode]);
+  };
 
   const generateIframeSrc = useCallback(() => {
     const htmlContent = `
@@ -181,7 +181,7 @@ const SonnetWebUI = () => {
     if (reactCode.trim()) {
       renderReactCode();
     }
-  }, [reactCode, renderReactCode]);
+  }, [reactCode]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
