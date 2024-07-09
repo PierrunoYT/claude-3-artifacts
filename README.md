@@ -5,14 +5,16 @@ Sonnet Web UI is a React-based web application that provides an interface for in
 ## Features
 
 - Chat interface for Claude 3 Sonnet AI
-- Real-time React component rendering
+- Real-time React component rendering with automatic updates
 - Dark mode toggle
 - Syntax highlighting for code blocks in chat
 - Responsive design using Tailwind CSS
+- Enhanced error handling and user-friendly error messages
+- Improved React code validation and error reporting
 
 ## Roadmap
 
-For detailed information about our planned features and improvements, please see the [ROADMAP.md](ROADMAP.md) file.
+For detailed information about our completed features, current work, and future plans, please see the [ROADMAP.md](ROADMAP.md) file.
 
 ## Contributing
 
@@ -26,3 +28,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - This project uses the OpenRouter API to interact with the Claude 3 Sonnet model.
 - UI components are built using the shadcn/ui library and Tailwind CSS.
+- We use React Syntax Highlighter for code block formatting in the chat interface.

@@ -1,19 +1,21 @@
 # Sonnet Web UI Roadmap
 
-## Version 1.0 (Current)
+## Version 1.0 (Completed)
 - [x] Implement basic chat interface for Claude 3 Sonnet AI
 - [x] Create React component rendering area
 - [x] Add dark mode toggle
 - [x] Add syntax highlighting for code blocks in chat
 - [x] Create responsive design using Tailwind CSS
 - [x] Implement real-time React component rendering
+- [x] Improve error handling and display user-friendly error messages
+- [x] Implement automatic rendering and updating of React components
 
-## Version 1.1
+## Version 1.1 (Current)
 - [ ] Implement local storage for chat history persistence
 - [ ] Add support for multiple chat conversations
-- [ ] Improve error handling and display user-friendly error messages
 - [ ] Implement secure storage for API keys
 - [ ] Add a clear chat history button
+- [ ] Enhance React code validation and error reporting
 
 ## Version 1.2
 - [ ] Create a settings page for user preferences
