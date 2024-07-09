@@ -50,6 +50,9 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        'button-dark': '#4a5568',
+        'button-dark-hover': '#2d3748',
+        'button-dark-text': '#e2e8f0',
       },
       boxShadow: {
         custom: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
