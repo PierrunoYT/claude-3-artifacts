@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Send, Play } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Sun, Moon, Send, Play, RefreshCw } from 'lucide-react';
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
 import { Textarea } from "./components/ui/textarea"
@@ -14,7 +14,7 @@ const SonnetWebUI = () => {
   const [siteUrl, setSiteUrl] = useState('');
   const [appName, setAppName] = useState('');
   const [reactCode, setReactCode] = useState('');
-  const [renderedComponent, setRenderedComponent] = useState(null);
+  const [iframeKey, setIframeKey] = useState(0);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -56,16 +56,34 @@ const SonnetWebUI = () => {
     }
   };
 
+  const generateIframeSrc = useCallback(() => {
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+          <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+          <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        </head>
+        <body>
+          <div id="root"></div>
+          <script type="text/babel">
+            ${reactCode}
+            ReactDOM.render(
+              React.createElement(eval(${JSON.stringify(reactCode)})),
+              document.getElementById('root')
+            );
+          </script>
+        </body>
+      </html>
+    `;
+    return `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`;
+  }, [reactCode]);
+
   const renderReactCode = () => {
-    try {
-      // eslint-disable-next-line no-new-func
-      const ComponentFunction = new Function('React', `return ${reactCode}`)
-      const Component = ComponentFunction(React);
-      setRenderedComponent(<Component />);
-    } catch (error) {
-      console.error('Error rendering React component:', error);
-      setRenderedComponent(<div>Error rendering component: {error.message}</div>);
-    }
+    setIframeKey(prevKey => prevKey + 1);
   };
 
   useEffect(() => {
@@ -147,13 +165,25 @@ const SonnetWebUI = () => {
           placeholder="Paste your React component code here..."
           className="mb-4 h-1/3 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
-        <Button onClick={renderReactCode} className="mb-6 bg-secondary hover:bg-secondary-dark text-white">
-          <Play className="mr-2" />
-          Render Component
-        </Button>
+        <div className="flex mb-6">
+          <Button onClick={renderReactCode} className="mr-2 bg-secondary hover:bg-secondary-dark text-white">
+            <Play className="mr-2" />
+            Render Component
+          </Button>
+          <Button onClick={renderReactCode} className="bg-secondary hover:bg-secondary-dark text-white">
+            <RefreshCw className="mr-2" />
+            Refresh
+          </Button>
+        </div>
         <Card className="bg-white dark:bg-gray-800 shadow-custom">
           <CardContent>
-            {renderedComponent}
+            <iframe
+              key={iframeKey}
+              src={generateIframeSrc()}
+              title="React Component Preview"
+              className="w-full h-64 border-0"
+              sandbox="allow-scripts"
+            />
           </CardContent>
         </Card>
       </div>
