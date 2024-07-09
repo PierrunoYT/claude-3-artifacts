@@ -12,7 +12,6 @@ const SonnetWebUI = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
-  const [isCode, setIsCode] = useState(false);
   const [apiKey, setApiKey] = useState(process.env.REACT_APP_OPENROUTER_API_KEY || '');
   const [apiKeyModified, setApiKeyModified] = useState(false);
   const [reactCode, setReactCode] = useState('');
@@ -326,13 +325,6 @@ const SonnetWebUI = () => {
               className="flex-grow mr-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
             />
             <Button 
-              onClick={() => setIsCode(!isCode)} 
-              className={`mr-2 ${isCode ? 'bg-secondary dark:bg-button-dark' : 'bg-gray-300 dark:bg-gray-600'} hover:bg-secondary-dark dark:hover:bg-button-dark-hover text-white dark:text-button-dark-text`}
-            >
-              <Code className="mr-2" />
-              Code
-            </Button>
-            <Button 
               onClick={sendMessage} 
               className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text"
             >
@@ -340,11 +332,6 @@ const SonnetWebUI = () => {
               Send
             </Button>
           </div>
-          {isCode && (
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              Code mode is active. The AI's response will be formatted as a code block.
-            </div>
-          )}
         </div>
       </div>
 
