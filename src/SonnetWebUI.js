@@ -171,7 +171,7 @@ const SonnetWebUI = () => {
         isCode: false 
       }]);
     }
-  };
+  }, [reactCode, validateReactCode, setChat, setIframeKey]);
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
