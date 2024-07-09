@@ -5,6 +5,8 @@ import { Input } from "./components/ui/input"
 import { Textarea } from "./components/ui/textarea"
 import { Card, CardContent } from "./components/ui/card"
 import { Switch } from "./components/ui/switch"
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const SonnetWebUI = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -149,9 +151,17 @@ const SonnetWebUI = () => {
                   : 'bg-white dark:bg-gray-800 text-text-light dark:text-text-dark'
               }`}>
                 {msg.isCode ? (
-                  <pre className="whitespace-pre-wrap font-mono text-sm">
-                    <code>{msg.content}</code>
-                  </pre>
+                  <SyntaxHighlighter
+                    language="javascript"
+                    style={vscDarkPlus}
+                    customStyle={{
+                      padding: '1em',
+                      borderRadius: '0.5em',
+                      fontSize: '0.9em',
+                    }}
+                  >
+                    {msg.content}
+                  </SyntaxHighlighter>
                 ) : (
                   <span>{msg.content}</span>
                 )}
