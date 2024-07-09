@@ -121,14 +121,19 @@ const SonnetWebUI = () => {
 
   const validateReactCode = (code) => {
     try {
+      // Check for import statements
+      if (code.includes('import ')) {
+        throw new Error('Import statements are not allowed in this context. Please define your component without using imports.');
+      }
+        
       // Basic syntax check
       new Function(code);
-      
+        
       // Check for React component structure
-      if (!code.includes('return') || !code.includes('React.createElement') && !code.includes('JSX')) {
+      if (!code.includes('return') || (!code.includes('React.createElement') && !code.includes('JSX'))) {
         throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX or React.createElement.');
       }
-      
+        
       return { isValid: true, error: null };
     } catch (error) {
       console.error('Invalid React code:', error);
@@ -144,7 +149,7 @@ const SonnetWebUI = () => {
       // Display a detailed error message to the user
       setChat(prev => [...prev, { 
         role: 'assistant', 
-        content: `Error: Invalid React code. ${error}\n\nPlease check your syntax and ensure you're defining a valid React component.`, 
+        content: `⚠️ Error: Invalid React code ⚠️\n\n${error}\n\nPlease check your syntax and ensure you're defining a valid React component without using import statements.`, 
         isCode: false 
       }]);
     }
