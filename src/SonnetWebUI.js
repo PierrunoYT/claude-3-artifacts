@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Sun, Moon, Send, Play, RefreshCw } from 'lucide-react';
+import { Sun, Moon, Send, Play, RefreshCw, Code } from 'lucide-react';
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
 import { Textarea } from "./components/ui/textarea"
@@ -10,6 +10,7 @@ const SonnetWebUI = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
+  const [isCode, setIsCode] = useState(false);
   const [apiKey, setApiKey] = useState('');
   const [siteUrl, setSiteUrl] = useState('');
   const [appName, setAppName] = useState('');
@@ -22,7 +23,7 @@ const SonnetWebUI = () => {
 
   const sendMessage = async () => {
     if (message.trim()) {
-      const userMessage = { role: 'user', content: message };
+      const userMessage = { role: 'user', content: message, isCode };
       setChat(prev => [...prev, userMessage]);
 
       try {
@@ -45,11 +46,11 @@ const SonnetWebUI = () => {
         }
 
         const data = await response.json();
-        const assistantMessage = { role: 'assistant', content: data.choices[0].message.content };
+        const assistantMessage = { role: 'assistant', content: data.choices[0].message.content, isCode: false };
         setChat(prev => [...prev, assistantMessage]);
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
-        setChat(prev => [...prev, { role: 'assistant', content: 'Sorry, there was an error processing your request.' }]);
+        setChat(prev => [...prev, { role: 'assistant', content: 'Sorry, there was an error processing your request.', isCode: false }]);
       }
 
       setMessage('');
@@ -129,30 +130,47 @@ const SonnetWebUI = () => {
         <div className="flex-grow overflow-y-auto mb-6 custom-scrollbar">
           {chat.map((msg, index) => (
             <div key={index} className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-              <span className={`inline-block p-3 rounded-lg shadow-custom ${
+              <div className={`inline-block p-3 rounded-lg shadow-custom ${
                 msg.role === 'user' 
                   ? 'bg-primary text-white' 
                   : 'bg-white dark:bg-gray-800 text-text-light dark:text-text-dark'
               }`}>
-                {msg.content}
-              </span>
+                {msg.isCode ? (
+                  <pre className="whitespace-pre-wrap font-mono text-sm">
+                    <code>{msg.content}</code>
+                  </pre>
+                ) : (
+                  <span>{msg.content}</span>
+                )}
+              </div>
             </div>
           ))}
         </div>
 
         {/* Message input */}
-        <div className="flex">
-          <Input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-grow mr-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
-          />
-          <Button onClick={sendMessage} className="bg-primary hover:bg-primary-dark text-white">
-            <Send className="mr-2" />
-            Send
-          </Button>
+        <div className="flex flex-col">
+          <div className="flex mb-2">
+            <Input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-grow mr-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
+            />
+            <Button onClick={() => setIsCode(!isCode)} className={`mr-2 ${isCode ? 'bg-secondary' : 'bg-gray-300'} hover:bg-secondary-dark text-white`}>
+              <Code className="mr-2" />
+              Code
+            </Button>
+            <Button onClick={sendMessage} className="bg-primary hover:bg-primary-dark text-white">
+              <Send className="mr-2" />
+              Send
+            </Button>
+          </div>
+          {isCode && (
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Code mode is active. Your message will be formatted as a code block.
+            </div>
+          )}
         </div>
       </div>
 
