@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Sun, Moon, Send, Play, RefreshCw, Code } from 'lucide-react';
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
@@ -11,7 +11,7 @@ const SonnetWebUI = () => {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [isCode, setIsCode] = useState(false);
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('apiKey') || '');
+  const [apiKey, setApiKey] = useState('');
   const [siteUrl, setSiteUrl] = useState(() => localStorage.getItem('siteUrl') || '');
   const [appName, setAppName] = useState(() => localStorage.getItem('appName') || '');
   const [reactCode, setReactCode] = useState('');
@@ -25,9 +25,6 @@ const SonnetWebUI = () => {
     localStorage.setItem(key, value);
   }, []);
 
-  useEffect(() => {
-    saveToLocalStorage('apiKey', apiKey);
-  }, [apiKey, saveToLocalStorage]);
 
   useEffect(() => {
     saveToLocalStorage('siteUrl', siteUrl);
