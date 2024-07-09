@@ -125,9 +125,9 @@ const SonnetWebUI = () => {
                   ? 'bg-primary text-white' 
                   : 'bg-white dark:bg-gray-800 text-text-light dark:text-text-dark'
               }`}>
-                {msg.role === 'assistant' && msg.isCode ? (
+                {msg.role === 'assistant' ? (
                   <SyntaxHighlighter
-                    language="javascript"
+                    language={msg.isCode ? "javascript" : "text"}
                     style={vscDarkPlus}
                     customStyle={{
                       padding: '1em',
