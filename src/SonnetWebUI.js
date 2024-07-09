@@ -121,6 +121,12 @@ const SonnetWebUI = () => {
     document.body.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
+  useEffect(() => {
+    if (reactCode.trim()) {
+      renderReactCode();
+    }
+  }, [reactCode]);
+
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
       {/* Left side - Chat interface */}
@@ -216,15 +222,8 @@ const SonnetWebUI = () => {
           placeholder="Paste your React component code here..."
           className="mb-4 h-1/3 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
-        <div className="flex mb-6">
-          <Button onClick={renderReactCode} className="mr-2 bg-secondary hover:bg-secondary-dark text-white">
-            <Play className="mr-2" />
-            Render Component
-          </Button>
-          <Button onClick={renderReactCode} className="bg-secondary hover:bg-secondary-dark text-white">
-            <RefreshCw className="mr-2" />
-            Refresh
-          </Button>
+        <div className="mb-6 text-sm text-gray-500 dark:text-gray-400">
+          The React component will automatically render and update as you type.
         </div>
         <Card className="bg-white dark:bg-gray-800 shadow-custom">
           <CardContent>
