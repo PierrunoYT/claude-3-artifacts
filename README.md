@@ -71,3 +71,40 @@ const MyComponent = () => {
 ```
 
 These guidelines ensure that your component will work correctly in the rendering area.
+# Sonnet Web UI
+
+This project is a web-based user interface for interacting with Claude 3.5 Sonnet, an AI model by Anthropic, using the OpenRouter API.
+
+## Features
+
+- Chat interface for communicating with Claude 3.5 Sonnet
+- Dark mode toggle
+- Secure API key management
+- Real-time React component rendering
+- Syntax highlighting for code blocks
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Create a `.env` file in the root directory and add your OpenRouter API key:
+   ```
+   REACT_APP_OPENROUTER_API_KEY=your_api_key_here
+   ```
+4. Run the development server with `npm run dev`
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Technologies Used
+
+- React
+- Express
+- Tailwind CSS
+- OpenRouter API
+
+## Contributing
+
+Contributions are welcome! Please see the ROADMAP.md file for planned features and improvements.
+
+## License
+
+This project is licensed under the MIT License.
