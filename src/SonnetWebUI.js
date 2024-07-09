@@ -130,8 +130,8 @@ const SonnetWebUI = () => {
       new Function(code);
         
       // Check for React component structure
-      if (!code.includes('return') || (!code.includes('React.createElement') && !code.includes('JSX'))) {
-        throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX or React.createElement.');
+      if (!code.includes('return')) {
+        throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX.');
       }
         
       return { isValid: true, error: null };
