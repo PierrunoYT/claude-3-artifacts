@@ -13,13 +13,26 @@ const SonnetWebUI = () => {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
   const [isCode, setIsCode] = useState(false);
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState(process.env.REACT_APP_OPENROUTER_API_KEY || '');
   const [reactCode, setReactCode] = useState('');
   const [iframeKey, setIframeKey] = useState(0);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
+
+  useEffect(() => {
+    if (apiKey) {
+      localStorage.setItem('openRouterApiKey', apiKey);
+    }
+  }, [apiKey]);
+
+  useEffect(() => {
+    const savedApiKey = localStorage.getItem('openRouterApiKey');
+    if (savedApiKey) {
+      setApiKey(savedApiKey);
+    }
+  }, []);
 
 
 

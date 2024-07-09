@@ -30,6 +30,19 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - UI components are built using the shadcn/ui library and Tailwind CSS.
 - We use React Syntax Highlighter for code block formatting in the chat interface.
 
+## Setup
+
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Create a `.env` file in the root directory of the project
+4. Add your OpenRouter API key to the `.env` file:
+
+```
+REACT_APP_OPENROUTER_API_KEY=your_api_key_here
+```
+
+5. Run the development server with `npm start`
+
 ## React Component Guidelines
 
 When writing React components for the rendering area, please follow these guidelines:
