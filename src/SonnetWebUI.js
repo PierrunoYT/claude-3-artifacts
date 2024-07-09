@@ -81,10 +81,15 @@ const SonnetWebUI = () => {
           <div id="root"></div>
           <script type="text/babel">
             ${reactCode}
-            ReactDOM.render(
-              React.createElement(eval(${JSON.stringify(reactCode)})),
-              document.getElementById('root')
-            );
+            const App = () => {
+              try {
+                const Component = eval(${JSON.stringify(reactCode)});
+                return React.createElement(Component);
+              } catch (error) {
+                return React.createElement('div', null, 'Error: ' + error.message);
+              }
+            };
+            ReactDOM.render(React.createElement(App), document.getElementById('root'));
           </script>
         </body>
       </html>
@@ -92,8 +97,24 @@ const SonnetWebUI = () => {
     return `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`;
   }, [reactCode]);
 
+  const validateReactCode = (code) => {
+    try {
+      // Basic syntax check
+      new Function(code);
+      return true;
+    } catch (error) {
+      console.error('Invalid React code:', error);
+      return false;
+    }
+  };
+
   const renderReactCode = () => {
-    setIframeKey(prevKey => prevKey + 1);
+    if (validateReactCode(reactCode)) {
+      setIframeKey(prevKey => prevKey + 1);
+    } else {
+      // Display an error message to the user
+      setChat(prev => [...prev, { role: 'assistant', content: 'Error: Invalid React code. Please check your syntax.', isCode: false }]);
+    }
   };
 
   useEffect(() => {
@@ -213,6 +234,9 @@ const SonnetWebUI = () => {
               title="React Component Preview"
               className="w-full h-64 border-0"
               sandbox="allow-scripts"
+              onLoad={(e) => {
+                e.target.contentWindow.postMessage(reactCode, '*');
+              }}
             />
           </CardContent>
         </Card>
