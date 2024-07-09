@@ -73,15 +73,17 @@ const MyComponent = () => {
 These guidelines ensure that your component will work correctly in the rendering area.
 # Sonnet Web UI
 
-This project is a web-based user interface for interacting with Claude 3.5 Sonnet, an AI model by Anthropic, using the OpenRouter API.
+Sonnet Web UI is a React-based web application that provides an interface for interacting with the Claude 3 Sonnet AI model via the OpenRouter API. It features a split-screen layout with a chat interface on the left and a React component rendering area on the right.
 
 ## Features
 
-- Chat interface for communicating with Claude 3.5 Sonnet
+- Chat interface for Claude 3 Sonnet AI
+- Real-time React component rendering with automatic updates
 - Dark mode toggle
-- Secure API key management
-- Real-time React component rendering
-- Syntax highlighting for code blocks
+- Syntax highlighting for code blocks in chat
+- Responsive design using Tailwind CSS
+- Enhanced error handling and user-friendly error messages
+- Improved React code validation and error reporting
 
 ## Getting Started
 
@@ -91,9 +93,12 @@ This project is a web-based user interface for interacting with Claude 3.5 Sonne
    ```
    REACT_APP_OPENROUTER_API_KEY=your_api_key_here
    ```
-4. Build the project with `npm run build`
-5. Start the server with `npm start`
-6. Open [http://localhost:3001](http://localhost:3001) in your browser
+4. For development:
+   - Run `npm run dev` to start the React development server on port 3000
+5. For production or to test the full stack application:
+   - Build the project with `npm run build`
+   - Start the server with `npm start`
+   - Open [http://localhost:3001](http://localhost:3001) in your browser
 
 ## Technologies Used
 
@@ -101,20 +106,19 @@ This project is a web-based user interface for interacting with Claude 3.5 Sonne
 - Express
 - Tailwind CSS
 - OpenRouter API
-
-## Development vs Production
-
-For development, you can use `npm run dev` to start the React development server on port 3000.
-
-For production or to test the full stack application:
-1. Build the React app with `npm run build`
-2. Start the Express server with `npm start`
-3. The server will serve the built React app and handle API requests on port 3001
+- shadcn/ui components
+- React Syntax Highlighter
 
 ## Contributing
 
-Contributions are welcome! Please see the ROADMAP.md file for planned features and improvements.
+We welcome contributions to the Sonnet Web UI project! If you're interested in helping, please check our issue tracker for open tasks or suggest new features by opening an issue.
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- This project uses the OpenRouter API to interact with the Claude 3 Sonnet model.
+- UI components are built using the shadcn/ui library and Tailwind CSS.
+- We use React Syntax Highlighter for code block formatting in the chat interface.
