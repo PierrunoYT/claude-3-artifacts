@@ -11,86 +11,43 @@ Sonnet Web UI is a React-based web application that provides an interface for in
 - Syntax highlighting for code blocks in chat
 - Responsive design using Tailwind CSS
 
-## Prerequisites
+## Roadmap
 
-Before you begin, ensure you have met the following requirements:
+Here's our planned roadmap for future development:
 
-- Node.js (v14.0.0 or later)
-- npm (v6.0.0 or later)
-- An OpenRouter API key
+### Version 1.1
+- [ ] Implement user authentication and session management
+- [ ] Add support for multiple chat conversations
+- [ ] Improve error handling and display user-friendly error messages
 
-## Installation
+### Version 1.2
+- [ ] Implement file upload functionality for the chat interface
+- [ ] Add support for exporting chat history
+- [ ] Create a settings page for user preferences
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/sonnet-web-ui.git
-   cd sonnet-web-ui
-   ```
+### Version 1.3
+- [ ] Implement a plugin system for extending AI capabilities
+- [ ] Add support for voice input and text-to-speech output
+- [ ] Create a mobile-responsive design for better usability on smaller screens
 
-2. Install the dependencies:
-   ```
-   npm install
-   ```
+### Version 1.4
+- [ ] Implement collaborative features (shared chat rooms, real-time collaboration)
+- [ ] Add support for multiple AI models and allow users to switch between them
+- [ ] Create a component library showcase in the React rendering area
 
-## Usage
+### Version 1.5
+- [ ] Implement an API for integrating Sonnet Web UI with other applications
+- [ ] Add support for custom themes and styling options
+- [ ] Create a marketplace for community-created plugins and themes
 
-To start the development server:
-
-1. Run the following command:
-   ```
-   npm start
-   ```
-
-2. Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
-
-3. Enter your OpenRouter API key, site URL, and app name in the input fields at the top of the chat interface.
-
-4. Start chatting with the AI or use the React rendering area to test React components.
-
-## Project Structure
-
-- `src/components/ui/`: Contains reusable UI components
-- `src/lib/utils.js`: Utility functions
-- `src/SonnetWebUI.js`: Main component for the Sonnet Web UI
-- `src/App.js`: Root component
-- `src/index.js`: Entry point of the application
-
-## Dependencies
-
-This project uses several key dependencies:
-
-- React
-- react-syntax-highlighter: For syntax highlighting of code blocks
-- lucide-react: For icons
-- Tailwind CSS: For styling
-
-## Features in Detail
-
-### Chat Interface
-- Send messages to Claude 3 Sonnet AI
-- Toggle between regular text and code block formatting
-- View chat history with user and AI messages
-- Syntax highlighting for code blocks using react-syntax-highlighter
-
-### React Rendering Area
-- Input area for React component code
-- Real-time rendering of React components
-- Refresh button to update the rendered component
-
-### Dark Mode
-- Toggle between light and dark themes
-
-### Persistent Storage
-- Site URL and app name are saved in localStorage
-- API key is stored only for the current session
-
-## Customization
-
-You can customize the appearance of the UI by modifying the Tailwind CSS classes in the component files. The `tailwind.config.js` file can be used to extend or override the default Tailwind configuration.
+### Long-term goals
+- [ ] Develop a desktop application using Electron
+- [ ] Implement end-to-end encryption for enhanced privacy
+- [ ] Create a self-hosted version for organizations with specific security requirements
 
 ## Contributing
 
-Contributions to the Sonnet Web UI project are welcome. Please feel free to submit a Pull Request.
+We welcome contributions to the Sonnet Web UI project! If you're interested in helping, please check our issue tracker for open tasks or suggest new features by opening an issue.
 
 ## License
 
