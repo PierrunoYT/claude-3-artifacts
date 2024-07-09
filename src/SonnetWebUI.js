@@ -57,6 +57,14 @@ const SonnetWebUI = () => {
           isCode: isCode || content.trim().startsWith('```')
         };
         setChat(prev => [...prev, assistantMessage]);
+
+        // Extract React code from the response if it's a code block
+        if (assistantMessage.isCode) {
+          const codeMatch = content.match(/```(?:jsx?|react)?\s*([\s\S]*?)```/);
+          if (codeMatch) {
+            setReactCode(codeMatch[1].trim());
+          }
+        }
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
         setChat(prev => [...prev, { role: 'assistant', content: 'Sorry, there was an error processing your request.', isCode: false }]);
@@ -268,12 +276,12 @@ const SonnetWebUI = () => {
         <h2 className="text-3xl font-bold mb-6 text-primary dark:text-primary-dark">React Rendering Area</h2>
         <Textarea
           value={reactCode}
-          onChange={(e) => setReactCode(e.target.value)}
-          placeholder="Paste your React component code here..."
+          readOnly
+          placeholder="React component code will appear here automatically..."
           className="mb-4 h-1/3 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
         <div className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-          The React component will automatically render and update as you type.
+          The React component will automatically render and update when new code is received from the AI.
         </div>
         <Card className="bg-white dark:bg-gray-800 shadow-custom">
           <CardContent>
