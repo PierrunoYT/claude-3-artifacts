@@ -7,7 +7,6 @@ Sonnet Web UI is a React-based web application that provides an interface for in
 - Chat interface for Claude 3 Sonnet AI
 - Real-time React component rendering
 - Dark mode toggle
-- Persistent storage for site URL and app name
 - Syntax highlighting for code blocks in chat
 - Responsive design using Tailwind CSS
 

@@ -14,8 +14,6 @@ const SonnetWebUI = () => {
   const [chat, setChat] = useState([]);
   const [isCode, setIsCode] = useState(false);
   const [apiKey, setApiKey] = useState('');
-  const [siteUrl, setSiteUrl] = useState(() => localStorage.getItem('siteUrl') || '');
-  const [appName, setAppName] = useState(() => localStorage.getItem('appName') || '');
   const [reactCode, setReactCode] = useState('');
   const [iframeKey, setIframeKey] = useState(0);
 
@@ -28,13 +26,6 @@ const SonnetWebUI = () => {
   }, []);
 
 
-  useEffect(() => {
-    saveToLocalStorage('siteUrl', siteUrl);
-  }, [siteUrl, saveToLocalStorage]);
-
-  useEffect(() => {
-    saveToLocalStorage('appName', appName);
-  }, [appName, saveToLocalStorage]);
 
   const sendMessage = async () => {
     if (message.trim()) {
@@ -47,8 +38,6 @@ const SonnetWebUI = () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`,
-            'HTTP-Referer': siteUrl,
-            'X-Title': appName,
           },
           body: JSON.stringify({
             model: 'anthropic/claude-3-sonnet-20240320',
@@ -125,20 +114,6 @@ const SonnetWebUI = () => {
           onChange={(e) => setApiKey(e.target.value)}
           placeholder="Enter your OpenRouter API key"
           className="mb-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
-        />
-        <Input
-          type="text"
-          value={siteUrl}
-          onChange={(e) => setSiteUrl(e.target.value)}
-          placeholder="Enter your site URL"
-          className="mb-2 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
-        />
-        <Input
-          type="text"
-          value={appName}
-          onChange={(e) => setAppName(e.target.value)}
-          placeholder="Enter your app name"
-          className="mb-6 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 rounded-lg shadow-sm"
         />
 
         {/* Chat messages */}

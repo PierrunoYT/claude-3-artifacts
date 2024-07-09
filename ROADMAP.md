@@ -4,7 +4,6 @@
 - [x] Implement basic chat interface for Claude 3 Sonnet AI
 - [x] Create React component rendering area
 - [x] Add dark mode toggle
-- [x] Implement persistent storage for site URL and app name
 - [x] Add syntax highlighting for code blocks in chat
 - [x] Create responsive design using Tailwind CSS
 
