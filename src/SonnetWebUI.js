@@ -270,7 +270,7 @@ const SonnetWebUI = () => {
           <Button
             onClick={saveApiKey}
             disabled={!apiKeyModified}
-            className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text disabled:opacity-50"
+            className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Save Key
           </Button>
