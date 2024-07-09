@@ -50,7 +50,12 @@ const SonnetWebUI = () => {
         }
 
         const data = await response.json();
-        const assistantMessage = { role: 'assistant', content: data.choices[0].message.content, isCode };
+        const content = data.choices[0].message.content;
+        const assistantMessage = { 
+          role: 'assistant', 
+          content: content, 
+          isCode: isCode || content.trim().startsWith('```')
+        };
         setChat(prev => [...prev, assistantMessage]);
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
