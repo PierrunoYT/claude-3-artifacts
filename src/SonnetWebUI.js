@@ -76,19 +76,41 @@ const SonnetWebUI = () => {
           <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
           <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
           <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+          <style>
+            .error { color: red; font-family: monospace; white-space: pre-wrap; }
+          </style>
         </head>
         <body>
           <div id="root"></div>
           <script type="text/babel">
-            ${reactCode}
-            const App = () => {
-              try {
-                const Component = eval(${JSON.stringify(reactCode)});
-                return React.createElement(Component);
-              } catch (error) {
-                return React.createElement('div', null, 'Error: ' + error.message);
+            const ErrorBoundary = class extends React.Component {
+              constructor(props) {
+                super(props);
+                this.state = { hasError: false, error: null };
+              }
+              static getDerivedStateFromError(error) {
+                return { hasError: true, error };
+              }
+              render() {
+                if (this.state.hasError) {
+                  return React.createElement('div', { className: 'error' }, 
+                    'Error rendering component:\\n' + this.state.error.toString()
+                  );
+                }
+                return this.props.children;
               }
             };
+            
+            const UserComponent = (() => {
+              ${reactCode}
+            })();
+
+            const App = () => {
+              return React.createElement(ErrorBoundary, null,
+                React.createElement(UserComponent)
+              );
+            };
+
             ReactDOM.render(React.createElement(App), document.getElementById('root'));
           </script>
         </body>
@@ -101,19 +123,30 @@ const SonnetWebUI = () => {
     try {
       // Basic syntax check
       new Function(code);
-      return true;
+      
+      // Check for React component structure
+      if (!code.includes('return') || !code.includes('React.createElement') && !code.includes('JSX')) {
+        throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX or React.createElement.');
+      }
+      
+      return { isValid: true, error: null };
     } catch (error) {
       console.error('Invalid React code:', error);
-      return false;
+      return { isValid: false, error: error.message };
     }
   };
 
   const renderReactCode = () => {
-    if (validateReactCode(reactCode)) {
+    const { isValid, error } = validateReactCode(reactCode);
+    if (isValid) {
       setIframeKey(prevKey => prevKey + 1);
     } else {
-      // Display an error message to the user
-      setChat(prev => [...prev, { role: 'assistant', content: 'Error: Invalid React code. Please check your syntax.', isCode: false }]);
+      // Display a detailed error message to the user
+      setChat(prev => [...prev, { 
+        role: 'assistant', 
+        content: `Error: Invalid React code. ${error}\n\nPlease check your syntax and ensure you're defining a valid React component.`, 
+        isCode: false 
+      }]);
     }
   };
 
