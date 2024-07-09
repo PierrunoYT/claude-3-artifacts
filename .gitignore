@@ -25,3 +25,6 @@ yarn-error.log*
 
 # Ignoriere package-lock.json
 package-lock.json
+
+# Ignore .env file containing sensitive information
+.env
