@@ -37,7 +37,7 @@ const SonnetWebUI = () => {
 
   const saveApiKey = () => {
     // Update the .env file
-    fetch('/update-env', {
+    fetch('http://localhost:3001/update-env', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
