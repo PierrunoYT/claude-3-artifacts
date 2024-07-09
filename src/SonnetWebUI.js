@@ -44,17 +44,33 @@ const SonnetWebUI = () => {
       },
       body: JSON.stringify({ REACT_APP_OPENROUTER_API_KEY: apiKey }),
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => {
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        throw new Error(`Server response is not valid JSON: ${text}`);
+      }
+    })
     .then(data => {
       if (data.success) {
         setApiKeyModified(false);
         console.log('API key saved successfully');
+        // Optionally, add user feedback here
+        setChat(prev => [...prev, { role: 'assistant', content: 'API key saved successfully.', isCode: false }]);
       } else {
-        console.error('Failed to save API key');
+        throw new Error('Failed to save API key');
       }
     })
     .catch(error => {
       console.error('Error saving API key:', error);
+      // Provide user feedback
+      setChat(prev => [...prev, { role: 'assistant', content: `Error saving API key: ${error.message}`, isCode: false }]);
     });
   };
 
