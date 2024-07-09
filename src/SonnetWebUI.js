@@ -30,13 +30,19 @@ const SonnetWebUI = () => {
   }, []);
 
   const handleApiKeyChange = (e) => {
-    setApiKey(e.target.value);
-    setApiKeyModified(true);
+    const newValue = e.target.value;
+    setApiKey(newValue);
+    setApiKeyModified(newValue !== apiKey);
   };
 
   const saveApiKey = () => {
-    localStorage.setItem('openRouterApiKey', apiKey);
-    setApiKeyModified(false);
+    try {
+      localStorage.setItem('openRouterApiKey', apiKey);
+      setApiKeyModified(false);
+    } catch (error) {
+      console.error('Error saving API key:', error);
+      // Optionally, you can add user feedback here for the error case
+    }
   };
 
 
