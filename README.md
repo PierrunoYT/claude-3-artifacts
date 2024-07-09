@@ -1,12 +1,14 @@
 # Sonnet Web UI
 
-Sonnet Web UI is a React-based web application that provides an interface for interacting with the Claude 3.5 Sonnet AI model via the OpenRouter API. It features a split-screen layout with a React component rendering area on the left and a chat interface on the right.
+Sonnet Web UI is a React-based web application that provides an interface for interacting with the Claude 3 Sonnet AI model via the OpenRouter API. It features a split-screen layout with a chat interface on the left and a React component rendering area on the right.
 
 ## Features
 
-- Chat interface for Claude 3.5 Sonnet AI
+- Chat interface for Claude 3 Sonnet AI
 - Real-time React component rendering
 - Dark mode toggle
+- Persistent storage for site URL and app name
+- Code block formatting in chat
 - Responsive design using Tailwind CSS
 
 ## Prerequisites
@@ -30,38 +32,20 @@ Before you begin, ensure you have met the following requirements:
    npm install
    ```
 
-3. Create a `.env` file in the root directory and add your OpenRouter API key:
-   ```
-   REACT_APP_OPENROUTER_API_KEY=your_api_key_here
-   ```
-
 ## Usage
 
 To start the development server:
 
-1. Open a terminal or command prompt.
-2. Navigate to the project directory:
-   ```
-   cd path/to/sonnet-web-ui
-   ```
-3. Install the required dependencies:
-   ```
-   npm install
-   ```
-4. Run the following command to start the development server:
+1. Run the following command:
    ```
    npm start
    ```
 
-This will run the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-The page will automatically reload if you make changes to the code. You will see any lint errors in the console.
+3. Enter your OpenRouter API key, site URL, and app name in the input fields at the top of the chat interface.
 
-If you encounter any issues with the `react-scripts` command not being recognized, try the following:
-
-1. Delete the `node_modules` folder and the `package-lock.json` file.
-2. Run `npm install` again to reinstall all dependencies.
-3. Then run `npm start` to start the development server.
+4. Start chatting with the AI or use the React rendering area to test React components.
 
 ## Project Structure
 
@@ -70,6 +54,25 @@ If you encounter any issues with the `react-scripts` command not being recognize
 - `src/SonnetWebUI.js`: Main component for the Sonnet Web UI
 - `src/App.js`: Root component
 - `src/index.js`: Entry point of the application
+
+## Features in Detail
+
+### Chat Interface
+- Send messages to Claude 3 Sonnet AI
+- Toggle between regular text and code block formatting
+- View chat history with user and AI messages
+
+### React Rendering Area
+- Input area for React component code
+- Real-time rendering of React components
+- Refresh button to update the rendered component
+
+### Dark Mode
+- Toggle between light and dark themes
+
+### Persistent Storage
+- Site URL and app name are saved in localStorage
+- API key is stored only for the current session
 
 ## Customization
 
@@ -85,5 +88,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- This project uses the OpenRouter API to interact with the Claude 3.5 Sonnet model.
-- UI components are built using the shadcn/ui library.
+- This project uses the OpenRouter API to interact with the Claude 3 Sonnet model.
+- UI components are built using the shadcn/ui library and Tailwind CSS.
