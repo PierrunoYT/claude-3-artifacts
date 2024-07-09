@@ -8,7 +8,7 @@ Sonnet Web UI is a React-based web application that provides an interface for in
 - Real-time React component rendering
 - Dark mode toggle
 - Persistent storage for site URL and app name
-- Code block formatting in chat
+- Syntax highlighting for code blocks in chat
 - Responsive design using Tailwind CSS
 
 ## Prerequisites
@@ -55,12 +55,22 @@ To start the development server:
 - `src/App.js`: Root component
 - `src/index.js`: Entry point of the application
 
+## Dependencies
+
+This project uses several key dependencies:
+
+- React
+- react-syntax-highlighter: For syntax highlighting of code blocks
+- lucide-react: For icons
+- Tailwind CSS: For styling
+
 ## Features in Detail
 
 ### Chat Interface
 - Send messages to Claude 3 Sonnet AI
 - Toggle between regular text and code block formatting
 - View chat history with user and AI messages
+- Syntax highlighting for code blocks using react-syntax-highlighter
 
 ### React Rendering Area
 - Input area for React component code
