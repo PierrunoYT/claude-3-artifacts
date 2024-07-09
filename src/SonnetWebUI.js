@@ -32,34 +32,30 @@ const SonnetWebUI = () => {
   const handleApiKeyChange = (e) => {
     const newValue = e.target.value;
     setApiKey(newValue);
-    setApiKeyModified(newValue !== apiKey);
+    setApiKeyModified(true);
   };
 
   const saveApiKey = () => {
-    try {
-      // Update the .env file
-      fetch('/update-env', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ REACT_APP_OPENROUTER_API_KEY: apiKey }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          setApiKeyModified(false);
-          console.log('API key saved successfully');
-        } else {
-          console.error('Failed to save API key');
-        }
-      })
-      .catch(error => {
-        console.error('Error saving API key:', error);
-      });
-    } catch (error) {
+    // Update the .env file
+    fetch('/update-env', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ REACT_APP_OPENROUTER_API_KEY: apiKey }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        setApiKeyModified(false);
+        console.log('API key saved successfully');
+      } else {
+        console.error('Failed to save API key');
+      }
+    })
+    .catch(error => {
       console.error('Error saving API key:', error);
-    }
+    });
   };
 
 
