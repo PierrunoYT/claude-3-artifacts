@@ -38,7 +38,7 @@ const SonnetWebUI = () => {
 
   const sendMessage = async () => {
     if (message.trim()) {
-      const userMessage = { role: 'user', content: message, isCode };
+      const userMessage = { role: 'user', content: message };
       setChat(prev => [...prev, userMessage]);
 
       try {
@@ -61,7 +61,7 @@ const SonnetWebUI = () => {
         }
 
         const data = await response.json();
-        const assistantMessage = { role: 'assistant', content: data.choices[0].message.content, isCode: false };
+        const assistantMessage = { role: 'assistant', content: data.choices[0].message.content, isCode };
         setChat(prev => [...prev, assistantMessage]);
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
@@ -150,7 +150,7 @@ const SonnetWebUI = () => {
                   ? 'bg-primary text-white' 
                   : 'bg-white dark:bg-gray-800 text-text-light dark:text-text-dark'
               }`}>
-                {msg.isCode ? (
+                {msg.role === 'assistant' && msg.isCode ? (
                   <SyntaxHighlighter
                     language="javascript"
                     style={vscDarkPlus}
@@ -191,7 +191,7 @@ const SonnetWebUI = () => {
           </div>
           {isCode && (
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              Code mode is active. Your message will be formatted as a code block.
+              Code mode is active. The AI's response will be formatted as a code block.
             </div>
           )}
         </div>
