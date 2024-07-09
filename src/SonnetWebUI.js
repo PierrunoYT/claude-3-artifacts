@@ -138,7 +138,18 @@ const SonnetWebUI = () => {
       return { isValid: true, error: null };
     } catch (error) {
       console.error('Invalid React code:', error);
-      return { isValid: false, error: error.message };
+      let errorMessage = error.message;
+      
+      // Provide more user-friendly error messages for common syntax errors
+      if (error instanceof SyntaxError) {
+        if (error.message.includes('Unexpected token')) {
+          errorMessage = `Syntax Error: Unexpected token found. This often means you have a typo or misplaced character in your code. Check for missing semicolons, parentheses, or brackets.`;
+        } else if (error.message.includes('Unexpected identifier')) {
+          errorMessage = `Syntax Error: Unexpected identifier found. This could mean you're using a variable or function name in an unexpected place, or you might be missing an operator or keyword.`;
+        }
+      }
+      
+      return { isValid: false, error: errorMessage };
     }
   };
 
@@ -150,7 +161,7 @@ const SonnetWebUI = () => {
       // Display a detailed error message to the user
       setChat(prev => [...prev, { 
         role: 'assistant', 
-        content: `⚠️ Error: Invalid React code ⚠️\n\n${error}\n\nPlease check your syntax and ensure you're defining a valid React component without using import statements.`, 
+        content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Check for syntax errors like missing brackets or semicolons`, 
         isCode: false 
       }]);
     }
