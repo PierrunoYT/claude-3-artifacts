@@ -91,8 +91,9 @@ This project is a web-based user interface for interacting with Claude 3.5 Sonne
    ```
    REACT_APP_OPENROUTER_API_KEY=your_api_key_here
    ```
-4. Run the development server with `npm run dev`
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. Build the project with `npm run build`
+5. Start the server with `npm start`
+6. Open [http://localhost:3001](http://localhost:3001) in your browser
 
 ## Technologies Used
 
@@ -100,6 +101,15 @@ This project is a web-based user interface for interacting with Claude 3.5 Sonne
 - Express
 - Tailwind CSS
 - OpenRouter API
+
+## Development vs Production
+
+For development, you can use `npm run dev` to start the React development server on port 3000.
+
+For production or to test the full stack application:
+1. Build the React app with `npm run build`
+2. Start the Express server with `npm start`
+3. The server will serve the built React app and handle API requests on port 3001
 
 ## Contributing
 
