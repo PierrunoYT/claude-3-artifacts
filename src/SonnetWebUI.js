@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Sun, Moon, Send, Play, RefreshCw, Code } from 'lucide-react';
+import { Sun, Moon, Send, Code } from 'lucide-react';
 import { Button } from "./components/ui/button"
 import { Input } from "./components/ui/input"
 import { Textarea } from "./components/ui/textarea"
@@ -21,9 +21,6 @@ const SonnetWebUI = () => {
     setDarkMode(!darkMode);
   };
 
-  const saveToLocalStorage = useCallback((key, value) => {
-    localStorage.setItem(key, value);
-  }, []);
 
 
 
@@ -72,7 +69,7 @@ const SonnetWebUI = () => {
 
       setMessage('');
     }
-  };
+  }, [reactCode, setChat, setIframeKey, validateReactCode]);
 
   const generateIframeSrc = useCallback(() => {
     const htmlContent = `
@@ -136,6 +133,7 @@ const SonnetWebUI = () => {
       }
         
       // Basic syntax check
+      // eslint-disable-next-line no-new-func
       new Function(code);
         
       // Check for React component structure
@@ -161,7 +159,7 @@ const SonnetWebUI = () => {
     }
   };
 
-  const renderReactCode = () => {
+  const renderReactCode = useCallback(() => {
     const { isValid, error } = validateReactCode(reactCode);
     if (isValid) {
       setIframeKey(prevKey => prevKey + 1);
@@ -183,7 +181,7 @@ const SonnetWebUI = () => {
     if (reactCode.trim()) {
       renderReactCode();
     }
-  }, [reactCode]);
+  }, [reactCode, renderReactCode]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
