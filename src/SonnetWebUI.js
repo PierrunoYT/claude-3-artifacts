@@ -112,7 +112,9 @@ const SonnetWebUI = () => {
         if (assistantMessage.isCode) {
           const codeMatch = content.match(/```(?:jsx?|react)?\s*([\s\S]*?)```/);
           if (codeMatch) {
-            setReactCode(codeMatch[1].trim());
+            const extractedCode = codeMatch[1].trim();
+            setReactCode(extractedCode);
+            console.log('React code updated:', extractedCode); // Add this line for debugging
           }
         }
       } catch (error) {
@@ -232,9 +234,18 @@ const SonnetWebUI = () => {
 
   useEffect(() => {
     if (reactCode.trim()) {
-      renderReactCode();
+      const { isValid, error } = validateReactCode(reactCode);
+      if (isValid) {
+        setIframeKey(prevKey => prevKey + 1);
+      } else {
+        setChat(prev => [...prev, { 
+          role: 'assistant', 
+          content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Check for syntax errors like missing brackets or semicolons`, 
+          isCode: false 
+        }]);
+      }
     }
-  }, [reactCode]);
+  }, [reactCode, setChat]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
