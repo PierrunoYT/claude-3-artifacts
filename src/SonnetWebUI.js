@@ -100,10 +100,11 @@ const SonnetWebUI = () => {
 
         const data = await response.json();
         const content = data.choices[0].message.content;
+        const isCode = content.trim().startsWith('```');
         const assistantMessage = { 
           role: 'assistant', 
           content: content, 
-          isCode: isCode || content.trim().startsWith('```')
+          isCode: isCode
         };
         setChat(prev => [...prev, assistantMessage]);
 
