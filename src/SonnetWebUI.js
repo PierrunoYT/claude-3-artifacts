@@ -131,17 +131,26 @@ const SonnetWebUI = () => {
                   : 'bg-white dark:bg-gray-800 text-text-light dark:text-text-dark'
               }`}>
                 {msg.role === 'assistant' ? (
-                  <SyntaxHighlighter
-                    language={msg.isCode ? "javascript" : "text"}
-                    style={vscDarkPlus}
-                    customStyle={{
-                      padding: '1em',
-                      borderRadius: '0.5em',
-                      fontSize: '0.9em',
-                    }}
-                  >
-                    {msg.content}
-                  </SyntaxHighlighter>
+                  msg.content.split('```').map((part, index) => 
+                    index % 2 === 0 ? (
+                      <span key={index}>{part}</span>
+                    ) : (
+                      <SyntaxHighlighter
+                        key={index}
+                        language="javascript"
+                        style={vscDarkPlus}
+                        customStyle={{
+                          padding: '1em',
+                          borderRadius: '0.5em',
+                          fontSize: '0.9em',
+                          marginTop: '0.5em',
+                          marginBottom: '0.5em',
+                        }}
+                      >
+                        {part}
+                      </SyntaxHighlighter>
+                    )
+                  )
                 ) : (
                   <span>{msg.content}</span>
                 )}
