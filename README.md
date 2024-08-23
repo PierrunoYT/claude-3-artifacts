@@ -2,6 +2,8 @@
 
 Sonnet Web UI is a React-based application that provides an interactive interface for the Claude 3 Sonnet AI model using the OpenRouter API. It features a split-screen layout with a chat interface and a real-time React component rendering area.
 
+**IMPORTANT NOTE: The tool is currently not working and requires fixing. We are aware of the issue and are working on resolving it. Contributions to fix the problem are welcome.**
+
 ## Features
 
 - Chat interface for Claude 3 Sonnet AI
