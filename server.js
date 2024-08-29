@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
@@ -10,11 +10,15 @@ const maxPort = 3010; // Maximum port number to try
 let currentPort = port;
 
 app.use(bodyParser.json());
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.post('/update-env', (req, res) => {
+app.post('/update-env', async (req, res) => {
   const { REACT_APP_OPENROUTER_API_KEY } = req.body;
 
   if (!REACT_APP_OPENROUTER_API_KEY) {
@@ -24,17 +28,17 @@ app.post('/update-env', (req, res) => {
   const envPath = path.join(__dirname, '.env');
   const envContent = `REACT_APP_OPENROUTER_API_KEY=${REACT_APP_OPENROUTER_API_KEY}\n`;
 
-  fs.writeFile(envPath, envContent, (err) => {
-    if (err) {
-      console.error('Error writing to .env file:', err);
-      return res.status(500).json({ success: false, message: 'Failed to update .env file' });
-    }
+  try {
+    await fs.writeFile(envPath, envContent);
     
     // Reload environment variables
     dotenv.config();
     
     res.json({ success: true, message: 'API key updated successfully' });
-  });
+  } catch (err) {
+    console.error('Error writing to .env file:', err);
+    res.status(500).json({ success: false, message: 'Failed to update .env file' });
+  }
 });
 
 // The "catchall" handler: for any request that doesn't
@@ -59,6 +63,10 @@ function startServer(port) {
       console.error('Error starting server:', err);
       process.exit(1);
     }
+  });
+
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
   });
 }
 
