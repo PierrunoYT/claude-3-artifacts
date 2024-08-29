@@ -34,43 +34,33 @@ const SonnetWebUI = () => {
     setApiKeyModified(true);
   };
 
-  const saveApiKey = () => {
-    // Update the .env file
-    fetch('http://localhost:3001/update-env', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ REACT_APP_OPENROUTER_API_KEY: apiKey }),
-    })
-    .then(response => {
+  const saveApiKey = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/update-env', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ REACT_APP_OPENROUTER_API_KEY: apiKey }),
+      });
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return response.text();
-    })
-    .then(text => {
-      try {
-        return JSON.parse(text);
-      } catch (e) {
-        throw new Error(`Server response is not valid JSON: ${text}`);
-      }
-    })
-    .then(data => {
+
+      const data = await response.json();
+
       if (data.success) {
         setApiKeyModified(false);
         console.log('API key saved successfully');
-        // Optionally, add user feedback here
         setChat(prev => [...prev, { role: 'assistant', content: 'API key saved successfully.', isCode: false }]);
       } else {
         throw new Error('Failed to save API key');
       }
-    })
-    .catch(error => {
+    } catch (error) {
       console.error('Error saving API key:', error);
-      // Provide user feedback
       setChat(prev => [...prev, { role: 'assistant', content: `Error saving API key: ${error.message}`, isCode: false }]);
-    });
+    }
   };
 
 
@@ -95,10 +85,14 @@ const SonnetWebUI = () => {
         });
 
         if (!response.ok) {
-          throw new Error('API request failed');
+          throw new Error(`API request failed with status ${response.status}`);
         }
 
         const data = await response.json();
+        if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+          throw new Error('Unexpected response format from API');
+        }
+
         const content = data.choices[0].message.content;
         const isCode = content.trim().startsWith('```');
         const assistantMessage = { 
@@ -108,18 +102,19 @@ const SonnetWebUI = () => {
         };
         setChat(prev => [...prev, assistantMessage]);
 
-        // Extract React code from the response if it's a code block
-        if (assistantMessage.isCode) {
+        if (isCode) {
           const codeMatch = content.match(/```(?:jsx?|react)?\s*([\s\S]*?)```/);
           if (codeMatch) {
             const extractedCode = codeMatch[1].trim();
             setReactCode(extractedCode);
-            console.log('React code updated:', extractedCode); // Add this line for debugging
+            console.log('React code updated:', extractedCode);
+          } else {
+            console.warn('Code block detected but no code extracted');
           }
         }
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
-        setChat(prev => [...prev, { role: 'assistant', content: 'Sorry, there was an error processing your request.', isCode: false }]);
+        setChat(prev => [...prev, { role: 'assistant', content: `Error: ${error.message}`, isCode: false }]);
       }
 
       setMessage('');
@@ -182,26 +177,30 @@ const SonnetWebUI = () => {
 
   const validateReactCode = (code) => {
     try {
-      // Check for import statements
       if (code.includes('import ')) {
         throw new Error('Import statements are not allowed in this context. Please define your component without using imports.');
       }
-        
-      // Basic syntax check
+      
       // eslint-disable-next-line no-new-func
       new Function(code);
-        
-      // Check for React component structure
+      
       if (!code.includes('return')) {
         throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX.');
       }
-        
+      
+      if (!code.includes('React.useState') && !code.includes('useState')) {
+        console.warn('The component does not use state. Consider adding state for more interactive components.');
+      }
+      
+      if (!code.match(/React\.useEffect|useEffect/)) {
+        console.warn('The component does not use effects. Consider adding effects for side effects or data fetching.');
+      }
+      
       return { isValid: true, error: null };
     } catch (error) {
       console.error('Invalid React code:', error);
       let errorMessage = error.message;
       
-      // Provide more user-friendly error messages for common syntax errors
       if (error instanceof SyntaxError) {
         if (error.message.includes('Unexpected token')) {
           errorMessage = `Syntax Error: Unexpected token found. This often means you have a typo or misplaced character in your code. Check for missing semicolons, parentheses, or brackets.`;
@@ -237,15 +236,17 @@ const SonnetWebUI = () => {
       const { isValid, error } = validateReactCode(reactCode);
       if (isValid) {
         setIframeKey(prevKey => prevKey + 1);
+        console.log('React code validated and iframe key updated');
       } else {
         setChat(prev => [...prev, { 
           role: 'assistant', 
           content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Check for syntax errors like missing brackets or semicolons`, 
           isCode: false 
         }]);
+        console.error('React code validation failed:', error);
       }
     }
-  }, [reactCode, setChat]);
+  }, [reactCode]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
