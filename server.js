@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT || 3001;
+const maxPort = 3010; // Maximum port number to try
+let currentPort = port;
 
 app.use(bodyParser.json());
 
@@ -41,6 +43,23 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+function startServer(port) {
+  const server = app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  }).on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.log(`Port ${port} is busy, trying next port...`);
+      if (port < maxPort) {
+        startServer(port + 1);
+      } else {
+        console.error('No available ports found. Please close some applications and try again.');
+        process.exit(1);
+      }
+    } else {
+      console.error('Error starting server:', err);
+      process.exit(1);
+    }
+  });
+}
+
+startServer(currentPort);
