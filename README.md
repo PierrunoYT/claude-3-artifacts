@@ -18,7 +18,7 @@ claude-3-artifacts is a React-based application that provides an interactive int
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/claude-3-artifacts.git
+   git clone https://github.com/PierrunoYT/claude-3-artifacts.git
    cd claude-3-artifacts
    ```
 
