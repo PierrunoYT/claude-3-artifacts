@@ -1,117 +1,68 @@
-# claude-3-artifacts
+# PierrunoYT/claude-3-artifacts
 
-claude-3-artifacts is a React-based application that provides an interactive interface for the Claude 3 Sonnet AI model using the OpenRouter API. It features a split-screen layout with a chat interface and a real-time React component rendering area.
-
-**Important Note:** This project is currently broken and may not be fixed in the near future. Use at your own risk and be aware that functionality may be limited or non-existent.
+## Introduction
+**PierrunoYT/claude-3-artifacts** is a React-based project designed to provide a user interface for interacting with the Claude 3.5 Sonnet AI model. This project leverages modern web technologies to offer a chat interface and a React code rendering area, enhancing user interaction with AI-generated content. The project integrates various UI components and employs a server-side Express.js setup for API key management and other backend functionalities.
 
 ## Features
+- **Chat Interface**: Communicate with the Claude 3.5 Sonnet AI model via a user-friendly chat interface.
+- **React Code Rendering**: Automatically render React components received from AI in a dedicated area.
+- **Dark Mode Toggle**: Switch between light and dark themes for better user experience.
+- **API Key Management**: Securely store and manage API keys for accessing the AI service.
+- **Error Handling**: Comprehensive error handling for API requests and React code validation.
+- **Responsive Design**: Utilizes Tailwind CSS for a responsive and visually appealing design.
 
-- Chat interface for Claude 3 Sonnet AI
-- Real-time React component rendering with automatic updates
-- Dark mode toggle
-- Syntax highlighting for code blocks
-- Responsive design using Tailwind CSS
-- Enhanced error handling and user-friendly messages
-- Improved React code validation and error reporting
+## Requirements
+To run this project, ensure you have the following:
+- **Node.js**: Version 14.x or later
+- **npm**: Version 6.x or later
+- **React**: Version 18.2.0
+- **Express.js**: Version 4.17.1
+- **Environment**: `.env` file with `REACT_APP_OPENROUTER_API_KEY` set
 
-## Quick Start
+## Installation
+Follow these steps to set up the project:
 
-1. Clone the repository:
-   ```
+1. **Clone the Repository**:
+   ```bash
    git clone https://github.com/PierrunoYT/claude-3-artifacts.git
    cd claude-3-artifacts
    ```
 
-2. Install dependencies:
-   ```
+2. **Install Dependencies**:
+   ```bash
    npm install
    ```
 
-3. Create a `.env` file in the root directory and add your OpenRouter API key:
-   ```
+3. **Create a `.env` File**:
+   Add your OpenRouter API key in the `.env` file:
+   ```plaintext
    REACT_APP_OPENROUTER_API_KEY=your_api_key_here
    ```
 
-4. For development:
-   ```
-   npm run dev
-   ```
-   This will start the development server on port 3000.
-
-5. For production:
-   ```
-   npm run build
-   npm start
-   ```
-   This will build the project and start the production server on port 3001.
-
-6. Open your browser and navigate to `http://localhost:3000` (for development) or `http://localhost:3001` (for production).
-
-## Technologies
-
-- React
-- Express
-- Tailwind CSS
-- OpenRouter API
-- shadcn/ui components
-- React Syntax Highlighter
-
-## React Component Guidelines
-
-When writing React components for the rendering area, follow these guidelines:
-
-1. Remove any import statements
-2. Define components as arrow functions
-3. Use React.useState() directly (don't import useState)
-4. Maintain basic React component structure
-5. Double-check syntax, brackets, and semicolons
-6. Avoid using external libraries or components
-7. Keep components simple and focused on UI rendering
-8. Use inline styles or className for styling (Tailwind classes are available)
-
-Example:
-```jsx
-const MyComponent = () => {
-  const [count, setCount] = React.useState(0);
-
-  return (
-    <div className="p-4 bg-gray-100 rounded-md">
-      <p className="text-lg mb-2">You clicked {count} times</p>
-      <button 
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={() => setCount(count + 1)}
-      >
-        Click me
-      </button>
-    </div>
-  );
-};
+## Usage
+To run the project locally, execute the following command:
+```bash
+npm run dev
 ```
+This will start both the React development server and the Express server. Navigate to `http://localhost:3000` in your browser to access the application.
 
-## Troubleshooting
+## Configuration
+### API Key Management
+- Enter your OpenRouter API key in the designated input field within the chat interface.
+- Click the "Save Key" button to store the key securely.
 
-If you encounter issues while setting up or running the project, try the following:
-
-1. Ensure you have the latest version of Node.js installed (v14 or higher recommended).
-2. Clear your browser cache and restart the development server.
-3. Check that your OpenRouter API key is correctly set in the `.env` file.
-4. If you're having issues with dependencies, try deleting the `node_modules` folder and `package-lock.json` file, then run `npm install` again.
-5. Make sure you're not using any reserved words or syntax that might conflict with the React component rendering system.
-
-If problems persist, please open an issue on the GitHub repository with a detailed description of the problem and any error messages you're seeing.
+### Dark Mode
+- Toggle the dark mode switch to change the theme between light and dark.
 
 ## Contributing
-
-We welcome contributions! Check our issue tracker or suggest new features by opening an issue.
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Submit a pull request with a detailed description of your changes.
 
 ## License
+This project is licensed under the MIT License. You are free to use, modify, and distribute this software in accordance with the license terms.
 
-MIT License - see the LICENSE file for details.
+---
 
-## Acknowledgments
-
-- OpenRouter API for Claude 3 Sonnet model interaction
-- shadcn/ui library and Tailwind CSS for UI components
-- React Syntax Highlighter for code formatting
-
-For more details on features and future plans, see [ROADMAP.md](ROADMAP.md).
+By following this README, you should be able to set up and run the **PierrunoYT/claude-3-artifacts** project successfully, engage with its features, and contribute to its development.
