@@ -184,7 +184,7 @@ const SonnetWebUI = () => {
             };
             
             const UserComponent = () => {
-              ${reactCode || `
+              ${reactCode ? reactCode : `
                 return (
                   <div>
                     <h2>Welcome to the React Rendering Area</h2>
