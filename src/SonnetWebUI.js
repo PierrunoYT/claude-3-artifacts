@@ -153,6 +153,49 @@ const SonnetWebUI = () => {
     }
   };
 
+  const validateReactCode = useCallback((code) => {
+    if (!code.trim()) {
+      return { isValid: true, error: null };
+    }
+
+    // Remove import statements and export default
+    const codeWithoutImports = code
+      .replace(/^import\s+.*$/gm, '')
+      .replace(/^export\s+default\s+.*$/gm, '')
+      .trim();
+
+    // Wrap the code in a function to create a valid component
+    const wrappedCode = `
+      const UserComponent = () => {
+        ${codeWithoutImports}
+      };
+    `;
+
+    try {
+      // eslint-disable-next-line no-new-func
+      new Function('React', 'useState', 'useEffect', wrappedCode);
+      
+      if (!wrappedCode.includes('return')) {
+        throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX.');
+      }
+      
+      return { isValid: true, error: null, code: wrappedCode };
+    } catch (error) {
+      console.error('Invalid React code:', error);
+      let errorMessage = error.message;
+      
+      if (error instanceof SyntaxError) {
+        if (error.message.includes('Unexpected token')) {
+          errorMessage = `Syntax Error: Unexpected token found. This often means you have a typo or misplaced character in your code. Check for missing semicolons, parentheses, or brackets.`;
+        } else if (error.message.includes('Unexpected identifier')) {
+          errorMessage = `Syntax Error: Unexpected identifier found. This could mean you're using a variable or function name in an unexpected place, or you might be missing an operator or keyword.`;
+        }
+      }
+      
+      return { isValid: false, error: errorMessage };
+    }
+  }, []);
+
   const generateIframeSrc = useCallback(() => {
     const { isValid, error, code } = validateReactCode(reactCode);
     const htmlContent = `
@@ -218,51 +261,6 @@ const SonnetWebUI = () => {
     `;
     return `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`;
   }, [reactCode, validateReactCode]);
-
-  const validateReactCode = useCallback((code) => {
-    if (!code.trim()) {
-      return { isValid: true, error: null };
-    }
-
-    // Remove import statements and export default
-    const codeWithoutImports = code
-      .replace(/^import\s+.*$/gm, '')
-      .replace(/^export\s+default\s+.*$/gm, '')
-      .trim();
-
-    // Wrap the code in a function to create a valid component
-    const wrappedCode = `
-      const UserComponent = () => {
-        ${codeWithoutImports}
-      };
-    `;
-
-    try {
-      // eslint-disable-next-line no-new-func
-      new Function('React', 'useState', 'useEffect', wrappedCode);
-      
-      if (!wrappedCode.includes('return')) {
-        throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX.');
-      }
-      
-      return { isValid: true, error: null, code: wrappedCode };
-    } catch (error) {
-      console.error('Invalid React code:', error);
-      let errorMessage = error.message;
-      
-      if (error instanceof SyntaxError) {
-        if (error.message.includes('Unexpected token')) {
-          errorMessage = `Syntax Error: Unexpected token found. This often means you have a typo or misplaced character in your code. Check for missing semicolons, parentheses, or brackets.`;
-        } else if (error.message.includes('Unexpected identifier')) {
-          errorMessage = `Syntax Error: Unexpected identifier found. This could mean you're using a variable or function name in an unexpected place, or you might be missing an operator or keyword.`;
-        }
-      }
-      
-      return { isValid: false, error: errorMessage };
-    }
-  }, []);
-
-  // Remove the unused renderReactCode function
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
