@@ -76,15 +76,26 @@ const SonnetWebUI = () => {
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`,
             'HTTP-Referer': window.location.href,
             'X-Title': 'Claude 3.5 Sonnet Web UI',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             model: 'anthropic/claude-3-sonnet-20240320',
-            messages: [...chat, userMessage],
-          }),
+            messages: [
+              ...chat,
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'text',
+                    text: message
+                  }
+                ]
+              }
+            ]
+          })
         });
 
         if (!response.ok) {
@@ -101,7 +112,7 @@ const SonnetWebUI = () => {
         }
 
         const content = data.choices[0].message.content;
-        const isCode = content.trim().startsWith('```');
+        const isCode = typeof content === 'string' && content.trim().startsWith('```');
         const assistantMessage = { 
           role: 'assistant', 
           content: content, 
