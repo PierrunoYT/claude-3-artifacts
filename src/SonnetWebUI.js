@@ -78,6 +78,8 @@ const SonnetWebUI = () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${apiKey}`,
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'Claude 3.5 Sonnet Web UI',
           },
           body: JSON.stringify({
             model: 'anthropic/claude-3-sonnet-20240320',
@@ -86,11 +88,15 @@ const SonnetWebUI = () => {
         });
 
         if (!response.ok) {
-          throw new Error(`API request failed with status ${response.status}`);
+          const errorBody = await response.text();
+          console.error('API Error Response:', response.status, errorBody);
+          throw new Error(`API request failed with status ${response.status}. Details: ${errorBody}`);
         }
 
         const data = await response.json();
+        console.log('API Response:', data);
         if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+          console.error('Unexpected API response format:', data);
           throw new Error('Unexpected response format from API');
         }
 
@@ -115,7 +121,11 @@ const SonnetWebUI = () => {
         }
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
-        setChat(prev => [...prev, { role: 'assistant', content: `Error: ${error.message}`, isCode: false }]);
+        let errorMessage = error.message;
+        if (error.message.includes('401')) {
+          errorMessage = 'Authentication failed. Please check your API key and ensure it\'s correctly set in the environment variables or entered in the UI.';
+        }
+        setChat(prev => [...prev, { role: 'assistant', content: `Error: ${errorMessage}`, isCode: false }]);
       }
 
       setMessage('');
