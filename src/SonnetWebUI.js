@@ -194,16 +194,16 @@ const SonnetWebUI = () => {
             const useState = React.useState;
             const useEffect = React.useEffect;
             
-            const UserComponent = () => {
-              ${isValid ? code : `
+            ${isValid ? code : `
+              const UserComponent = () => {
                 return (
                   <div className="error">
                     <h2>React Code Error</h2>
                     <p>${error}</p>
                   </div>
                 );
-              `}
-            };
+              };
+            `}
 
             const App = () => (
               <ErrorBoundary>
@@ -224,26 +224,28 @@ const SonnetWebUI = () => {
       return { isValid: true, error: null };
     }
 
-    // Remove import statements
-    const codeWithoutImports = code.replace(/^import\s+.*$/gm, '').trim();
+    // Remove import statements and export default
+    const codeWithoutImports = code
+      .replace(/^import\s+.*$/gm, '')
+      .replace(/^export\s+default\s+.*$/gm, '')
+      .trim();
+
+    // Wrap the code in a function to create a valid component
+    const wrappedCode = `
+      const UserComponent = () => {
+        ${codeWithoutImports}
+      };
+    `;
 
     try {
       // eslint-disable-next-line no-new-func
-      new Function('React', 'useState', 'useEffect', codeWithoutImports);
+      new Function('React', 'useState', 'useEffect', wrappedCode);
       
-      if (!codeWithoutImports.includes('return')) {
+      if (!wrappedCode.includes('return')) {
         throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX.');
       }
       
-      if (!codeWithoutImports.includes('useState')) {
-        console.warn('The component does not use state. Consider adding state for more interactive components.');
-      }
-      
-      if (!codeWithoutImports.includes('useEffect')) {
-        console.warn('The component does not use effects. Consider adding effects for side effects or data fetching.');
-      }
-      
-      return { isValid: true, error: null, code: codeWithoutImports };
+      return { isValid: true, error: null, code: wrappedCode };
     } catch (error) {
       console.error('Invalid React code:', error);
       let errorMessage = error.message;
