@@ -123,19 +123,24 @@ const SonnetWebUI = () => {
         };
         setChat(prev => [...prev, assistantMessage]);
 
+        console.log('Full content from AI:', content);
         if (isCode) {
           const codeMatch = content.match(/```(?:jsx?|react)?\s*([\s\S]*?)```/);
           if (codeMatch) {
             const extractedCode = codeMatch[1].trim();
+            console.log('Extracted code:', extractedCode);
             setReactCode(extractedCode);
-            console.log('React code updated:', extractedCode);
+            console.log('React code state updated');
           } else {
             console.warn('Code block detected but no code extracted');
+            console.log('Content that failed to match:', content);
           }
+        } else {
+          console.log('No code block detected in the response');
         }
 
         // Log the current state of reactCode after updating
-        console.log('Current reactCode state:', extractedCode);
+        console.log('Current reactCode state:', reactCode);
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
         let errorMessage = error.message;
@@ -262,7 +267,9 @@ const SonnetWebUI = () => {
   useEffect(() => {
     console.log('reactCode changed:', reactCode);
     if (reactCode.trim()) {
+      console.log('reactCode is not empty, validating...');
       const { isValid, error } = validateReactCode(reactCode);
+      console.log('Validation result:', isValid ? 'Valid' : 'Invalid', error);
       if (isValid) {
         console.log('React code is valid, updating iframe key');
         setIframeKey(prevKey => prevKey + 1);
