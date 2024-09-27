@@ -16,6 +16,7 @@ const SonnetWebUI = () => {
   const [apiKeyModified, setApiKeyModified] = useState(false);
   const [reactCode, setReactCode] = useState('');
   const [iframeKey, setIframeKey] = useState(0);
+  const [renderTrigger, setRenderTrigger] = useState(0);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -232,21 +233,22 @@ const SonnetWebUI = () => {
   }, [darkMode]);
 
   useEffect(() => {
+    console.log('reactCode changed:', reactCode);
     if (reactCode.trim()) {
       const { isValid, error } = validateReactCode(reactCode);
       if (isValid) {
+        console.log('React code is valid, updating iframe key');
         setIframeKey(prevKey => prevKey + 1);
-        console.log('React code validated and iframe key updated');
       } else {
+        console.error('React code validation failed:', error);
         setChat(prev => [...prev, { 
           role: 'assistant', 
           content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Check for syntax errors like missing brackets or semicolons`, 
           isCode: false 
         }]);
-        console.error('React code validation failed:', error);
       }
     }
-  }, [reactCode]);
+  }, [reactCode, renderTrigger]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
@@ -328,10 +330,17 @@ const SonnetWebUI = () => {
             />
             <Button 
               onClick={sendMessage} 
-              className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text"
+              className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text mr-2"
             >
               <Send className="mr-2" />
               Send
+            </Button>
+            <Button 
+              onClick={() => setRenderTrigger(prev => prev + 1)} 
+              className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text"
+            >
+              <Code className="mr-2" />
+              Render Code
             </Button>
           </div>
         </div>
