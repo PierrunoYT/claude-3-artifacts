@@ -158,6 +158,7 @@ const SonnetWebUI = () => {
           <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
           <style>
             .error { color: red; font-family: monospace; white-space: pre-wrap; }
+            body { font-family: Arial, sans-serif; }
           </style>
         </head>
         <body>
@@ -183,14 +184,7 @@ const SonnetWebUI = () => {
             };
             
             const UserComponent = () => {
-              try {
-                ${reactCode}
-              } catch (error) {
-                console.error('Error in UserComponent:', error);
-                return <div>Error: {error.message}</div>;
-              }
-              // Default return in case the AI-generated code doesn't return anything
-              return <div>No content returned from the AI-generated component</div>;
+              ${reactCode}
             };
 
             const App = () => (
@@ -384,10 +378,7 @@ const SonnetWebUI = () => {
               src={generateIframeSrc()}
               title="React Component Preview"
               className="w-full h-64 border-0"
-              sandbox="allow-scripts"
-              onLoad={(e) => {
-                e.target.contentWindow.postMessage(reactCode, '*');
-              }}
+              sandbox="allow-scripts allow-modals"
             />
           </CardContent>
         </Card>
