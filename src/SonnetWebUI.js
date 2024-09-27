@@ -176,7 +176,7 @@ const SonnetWebUI = () => {
     return `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`;
   }, [reactCode]);
 
-  const validateReactCode = (code) => {
+  const validateReactCode = useCallback((code) => {
     try {
       if (code.includes('import ')) {
         throw new Error('Import statements are not allowed in this context. Please define your component without using imports.');
@@ -212,21 +212,9 @@ const SonnetWebUI = () => {
       
       return { isValid: false, error: errorMessage };
     }
-  };
+  }, []);
 
-  const renderReactCode = useCallback(() => {
-    const { isValid, error } = validateReactCode(reactCode);
-    if (isValid) {
-      setIframeKey(prevKey => prevKey + 1);
-    } else {
-      // Display a detailed error message to the user
-      setChat(prev => [...prev, { 
-        role: 'assistant', 
-        content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Check for syntax errors like missing brackets or semicolons`, 
-        isCode: false 
-      }]);
-    }
-  }, [reactCode, validateReactCode, setChat, setIframeKey]);
+  // Remove the unused renderReactCode function
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -248,7 +236,7 @@ const SonnetWebUI = () => {
         }]);
       }
     }
-  }, [reactCode, renderTrigger]);
+  }, [reactCode, renderTrigger, validateReactCode, setChat]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
