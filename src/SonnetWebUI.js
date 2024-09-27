@@ -184,7 +184,14 @@ const SonnetWebUI = () => {
             };
             
             const UserComponent = () => {
-              ${reactCode}
+              ${reactCode || `
+                return (
+                  <div>
+                    <h2>Welcome to the React Rendering Area</h2>
+                    <p>AI-generated React components will appear here.</p>
+                  </div>
+                );
+              `}
             };
 
             const App = () => (
@@ -202,6 +209,10 @@ const SonnetWebUI = () => {
   }, [reactCode]);
 
   const validateReactCode = useCallback((code) => {
+    if (!code.trim()) {
+      return { isValid: true, error: null };
+    }
+
     try {
       if (code.includes('import ')) {
         throw new Error('Import statements are not allowed in this context. Please define your component without using imports.');
