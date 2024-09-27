@@ -124,23 +124,22 @@ const SonnetWebUI = () => {
         setChat(prev => [...prev, assistantMessage]);
 
         console.log('Full content from AI:', content);
-        if (isCode) {
-          const codeMatch = content.match(/```(?:jsx?|react)?\s*([\s\S]*?)```/);
-          if (codeMatch) {
-            const extractedCode = codeMatch[1].trim();
-            console.log('Extracted code:', extractedCode);
-            setReactCode(extractedCode);
-            console.log('React code state updated');
-          } else {
-            console.warn('Code block detected but no code extracted');
-            console.log('Content that failed to match:', content);
-          }
+        const codeMatch = content.match(/```(?:jsx?|react)?\s*([\s\S]*?)```/);
+        if (codeMatch) {
+          const extractedCode = codeMatch[1].trim();
+          console.log('Extracted code:', extractedCode);
+          setReactCode(extractedCode);
+          console.log('React code state updated');
         } else {
-          console.log('No code block detected in the response');
+          console.warn('No code block detected in the response');
+          console.log('Content that failed to match:', content);
         }
 
-        // Log the current state of reactCode after updating
-        console.log('Current reactCode state:', reactCode);
+        // Use a callback to log the updated reactCode state
+        setReactCode(prevCode => {
+          console.log('Updated reactCode state:', prevCode);
+          return prevCode;
+        });
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
         let errorMessage = error.message;
@@ -265,11 +264,26 @@ const SonnetWebUI = () => {
   }, [darkMode]);
 
   useEffect(() => {
-    console.log('reactCode changed:', reactCode);
+    console.log('useEffect triggered for reactCode. Current value:', reactCode);
     if (reactCode.trim()) {
       console.log('reactCode is not empty, validating...');
       const { isValid, error } = validateReactCode(reactCode);
       console.log('Validation result:', isValid ? 'Valid' : 'Invalid', error);
+      if (isValid) {
+        console.log('React code is valid, updating iframe key');
+        setIframeKey(prevKey => prevKey + 1);
+      } else {
+        console.error('React code validation failed:', error);
+        // Add the error message to the chat
+        setChat(prev => [...prev, { 
+          role: 'assistant', 
+          content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue.`, 
+          isCode: false 
+        }]);
+      }
+    } else {
+      console.log('reactCode is empty, skipping validation');
+    }
       if (isValid) {
         console.log('React code is valid, updating iframe key');
         setIframeKey(prevKey => prevKey + 1);
@@ -372,7 +386,16 @@ const SonnetWebUI = () => {
             <Button 
               onClick={() => {
                 console.log('Render Code button clicked. Current reactCode:', reactCode);
-                setRenderTrigger(prev => prev + 1);
+                if (reactCode.trim()) {
+                  setRenderTrigger(prev => prev + 1);
+                } else {
+                  console.warn('Render Code button clicked, but reactCode is empty');
+                  setChat(prev => [...prev, { 
+                    role: 'assistant', 
+                    content: 'No React code available to render. Please generate some code first.', 
+                    isCode: false 
+                  }]);
+                }
               }} 
               className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text"
             >
