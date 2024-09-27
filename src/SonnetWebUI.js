@@ -174,7 +174,8 @@ const SonnetWebUI = () => {
     try {
       // Use Babel to transform JSX
       const transformedCode = Babel.transform(wrappedCode, {
-        presets: ['react']
+        presets: ['react'],
+        filename: 'virtual.js',
       }).code;
 
       // eslint-disable-next-line no-new-func
@@ -211,7 +212,7 @@ const SonnetWebUI = () => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
           <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-          <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+          <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
           <script>
             var Babel = window.Babel;
           </script>
