@@ -133,6 +133,9 @@ const SonnetWebUI = () => {
             console.warn('Code block detected but no code extracted');
           }
         }
+
+        // Log the current state of reactCode after updating
+        console.log('Current reactCode state:', extractedCode);
       } catch (error) {
         console.error('Error calling OpenRouter API:', error);
         let errorMessage = error.message;
@@ -360,7 +363,10 @@ const SonnetWebUI = () => {
               Send
             </Button>
             <Button 
-              onClick={() => setRenderTrigger(prev => prev + 1)} 
+              onClick={() => {
+                console.log('Render Code button clicked. Current reactCode:', reactCode);
+                setRenderTrigger(prev => prev + 1);
+              }} 
               className="bg-primary hover:bg-primary-dark text-white dark:bg-button-dark dark:hover:bg-button-dark-hover dark:text-button-dark-text"
             >
               <Code className="mr-2" />
