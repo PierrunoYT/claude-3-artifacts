@@ -154,6 +154,7 @@ const SonnetWebUI = () => {
   };
 
   const generateIframeSrc = useCallback(() => {
+    const { isValid, error, code } = validateReactCode(reactCode);
     const htmlContent = `
       <!DOCTYPE html>
       <html>
@@ -190,12 +191,15 @@ const SonnetWebUI = () => {
               }
             };
             
+            const useState = React.useState;
+            const useEffect = React.useEffect;
+            
             const UserComponent = () => {
-              ${reactCode ? reactCode : `
+              ${isValid ? code : `
                 return (
-                  <div>
-                    <h2>Welcome to the React Rendering Area</h2>
-                    <p>AI-generated React components will appear here.</p>
+                  <div className="error">
+                    <h2>React Code Error</h2>
+                    <p>${error}</p>
                   </div>
                 );
               `}
@@ -213,34 +217,33 @@ const SonnetWebUI = () => {
       </html>
     `;
     return `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`;
-  }, [reactCode]);
+  }, [reactCode, validateReactCode]);
 
   const validateReactCode = useCallback((code) => {
     if (!code.trim()) {
       return { isValid: true, error: null };
     }
 
+    // Remove import statements
+    const codeWithoutImports = code.replace(/^import\s+.*$/gm, '').trim();
+
     try {
-      if (code.includes('import ')) {
-        throw new Error('Import statements are not allowed in this context. Please define your component without using imports.');
-      }
-      
       // eslint-disable-next-line no-new-func
-      new Function(code);
+      new Function('React', 'useState', 'useEffect', codeWithoutImports);
       
-      if (!code.includes('return')) {
+      if (!codeWithoutImports.includes('return')) {
         throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX.');
       }
       
-      if (!code.includes('React.useState') && !code.includes('useState')) {
+      if (!codeWithoutImports.includes('useState')) {
         console.warn('The component does not use state. Consider adding state for more interactive components.');
       }
       
-      if (!code.match(/React\.useEffect|useEffect/)) {
+      if (!codeWithoutImports.includes('useEffect')) {
         console.warn('The component does not use effects. Consider adding effects for side effects or data fetching.');
       }
       
-      return { isValid: true, error: null };
+      return { isValid: true, error: null, code: codeWithoutImports };
     } catch (error) {
       console.error('Invalid React code:', error);
       let errorMessage = error.message;
