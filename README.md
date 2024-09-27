@@ -1,68 +1,86 @@
 # PierrunoYT/claude-3-artifacts
 
 ## Introduction
-**PierrunoYT/claude-3-artifacts** is a React-based project designed to provide a user interface for interacting with the Claude 3.5 Sonnet AI model. This project leverages modern web technologies to offer a chat interface and a React code rendering area, enhancing user interaction with AI-generated content. The project integrates various UI components and employs a server-side Express.js setup for API key management and other backend functionalities.
+**PierrunoYT/claude-3-artifacts** is an advanced React-based project that provides an interactive user interface for communicating with the Claude 3.5 Sonnet AI model. This application showcases modern web development practices, offering a seamless chat experience and real-time React code rendering capabilities.
 
-## Features
-- **Chat Interface**: Communicate with the Claude 3.5 Sonnet AI model via a user-friendly chat interface.
-- **React Code Rendering**: Automatically render React components received from AI in a dedicated area.
-- **Dark Mode Toggle**: Switch between light and dark themes for better user experience.
-- **API Key Management**: Securely store and manage API keys for accessing the AI service.
-- **Error Handling**: Comprehensive error handling for API requests and React code validation.
-- **Responsive Design**: Utilizes Tailwind CSS for a responsive and visually appealing design.
+## Key Features
+- **AI-Powered Chat Interface**: Engage in dynamic conversations with the Claude 3.5 Sonnet AI model.
+- **Real-Time React Code Rendering**: Instantly visualize and interact with AI-generated React components.
+- **Dark Mode Support**: Toggle between light and dark themes for optimal viewing comfort.
+- **Secure API Key Management**: Safely store and manage your OpenRouter API key.
+- **Robust Error Handling**: Comprehensive error management for API requests and React code validation.
+- **Responsive Design**: Fully responsive interface using Tailwind CSS for a polished look across devices.
 
-## Requirements
-To run this project, ensure you have the following:
+## Technical Requirements
 - **Node.js**: Version 14.x or later
 - **npm**: Version 6.x or later
 - **React**: Version 18.2.0
 - **Express.js**: Version 4.17.1
-- **Environment**: `.env` file with `REACT_APP_OPENROUTER_API_KEY` set
+- **OpenRouter API Key**: Required for AI model access
 
-## Installation
-Follow these steps to set up the project:
+## Getting Started
 
-1. **Clone the Repository**:
+### Installation
+1. Clone the repository:
    ```bash
    git clone https://github.com/PierrunoYT/claude-3-artifacts.git
    cd claude-3-artifacts
    ```
 
-2. **Install Dependencies**:
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Create a `.env` File**:
-   Add your OpenRouter API key in the `.env` file:
-   ```plaintext
-   REACT_APP_OPENROUTER_API_KEY=your_api_key_here
-   ```
+3. Set up environment variables:
+   - Create a `.env` file in the project root
+   - Add your OpenRouter API key:
+     ```
+     REACT_APP_OPENROUTER_API_KEY=your_api_key_here
+     ```
 
-## Usage
-To run the project locally, execute the following command:
+### Running the Application
+Launch the application with:
 ```bash
 npm run dev
 ```
-This will start both the React development server and the Express server. Navigate to `http://localhost:3000` in your browser to access the application.
+This command starts both the React frontend and Express backend servers. Access the application at `http://localhost:3000`.
 
-## Configuration
+## Usage Guide
+
+### Chat Interface
+- Type your message in the input field at the bottom of the chat area.
+- Click the "Send" button or press Enter to send your message to the AI.
+- View AI responses in the chat window, including any code snippets.
+
+### React Code Rendering
+- AI-generated React code will automatically appear in the code textarea.
+- The code will be rendered in real-time in the preview area below the textarea.
+- Any errors in the React code will be displayed in the chat interface.
+
 ### API Key Management
-- Enter your OpenRouter API key in the designated input field within the chat interface.
-- Click the "Save Key" button to store the key securely.
+- Enter your OpenRouter API key in the designated input field.
+- Click "Save Key" to securely store the key for future sessions.
 
 ### Dark Mode
-- Toggle the dark mode switch to change the theme between light and dark.
+- Use the sun/moon toggle switch in the top-right corner to switch between light and dark themes.
 
 ## Contributing
-Contributions are welcome! To contribute:
-1. Fork the repository.
+We welcome contributions to improve PierrunoYT/claude-3-artifacts! Here's how you can contribute:
+
+1. Fork the repository on GitHub.
 2. Create a new branch for your feature or bug fix.
-3. Submit a pull request with a detailed description of your changes.
+3. Commit your changes with clear, descriptive messages.
+4. Push your branch and submit a pull request with a detailed description of your changes.
+
+Please ensure your code adheres to the existing style and passes all tests.
 
 ## License
-This project is licensed under the MIT License. You are free to use, modify, and distribute this software in accordance with the license terms.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Support
+If you encounter any issues or have questions, please file an issue on the GitHub repository.
 
 ---
 
-By following this README, you should be able to set up and run the **PierrunoYT/claude-3-artifacts** project successfully, engage with its features, and contribute to its development.
+Thank you for using PierrunoYT/claude-3-artifacts! We hope this tool enhances your AI interaction and React development experience.
