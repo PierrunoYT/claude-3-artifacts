@@ -159,7 +159,14 @@ const SonnetWebUI = () => {
             };
             
             const UserComponent = () => {
-              ${reactCode}
+              try {
+                ${reactCode}
+              } catch (error) {
+                console.error('Error in UserComponent:', error);
+                return <div>Error: {error.message}</div>;
+              }
+              // Default return in case the AI-generated code doesn't return anything
+              return <div>No content returned from the AI-generated component</div>;
             };
 
             const App = () => (
@@ -231,7 +238,7 @@ const SonnetWebUI = () => {
         console.error('React code validation failed:', error);
         setChat(prev => [...prev, { 
           role: 'assistant', 
-          content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Check for syntax errors like missing brackets or semicolons`, 
+          content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Make sure your component returns JSX or null\n- Check for syntax errors like missing brackets or semicolons`, 
           isCode: false 
         }]);
       }
