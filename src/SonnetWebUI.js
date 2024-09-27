@@ -172,8 +172,13 @@ const SonnetWebUI = () => {
     `;
 
     try {
+      // Use Babel to transform JSX
+      const transformedCode = Babel.transform(wrappedCode, {
+        presets: ['react']
+      }).code;
+
       // eslint-disable-next-line no-new-func
-      new Function('React', 'useState', 'useEffect', wrappedCode);
+      new Function('React', 'useState', 'useEffect', transformedCode);
       
       if (!wrappedCode.includes('return')) {
         throw new Error('The code does not appear to be a valid React component. Make sure it includes a return statement with JSX.');
@@ -207,6 +212,9 @@ const SonnetWebUI = () => {
           <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
           <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
           <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+          <script>
+            var Babel = window.Babel;
+          </script>
           <style>
             .error { color: red; font-family: monospace; white-space: pre-wrap; }
             body { font-family: Arial, sans-serif; }
