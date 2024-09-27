@@ -296,7 +296,7 @@ const SonnetWebUI = () => {
         }]);
       }
     }
-  }, [reactCode, renderTrigger, validateReactCode, setChat]);
+  }, [reactCode, renderTrigger, validateReactCode]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
