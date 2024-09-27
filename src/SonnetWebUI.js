@@ -23,8 +23,11 @@ const SonnetWebUI = () => {
   };
 
   useEffect(() => {
+    const envApiKey = process.env.REACT_APP_OPENROUTER_API_KEY;
     const savedApiKey = localStorage.getItem('openRouterApiKey');
-    if (savedApiKey) {
+    if (envApiKey) {
+      setApiKey(envApiKey);
+    } else if (savedApiKey) {
       setApiKey(savedApiKey);
     }
   }, []);
