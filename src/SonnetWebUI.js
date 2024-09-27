@@ -274,29 +274,16 @@ const SonnetWebUI = () => {
         setIframeKey(prevKey => prevKey + 1);
       } else {
         console.error('React code validation failed:', error);
-        // Add the error message to the chat
-        setChat(prev => [...prev, { 
-          role: 'assistant', 
-          content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue.`, 
-          isCode: false 
-        }]);
-      }
-    } else {
-      console.log('reactCode is empty, skipping validation');
-    }
-      if (isValid) {
-        console.log('React code is valid, updating iframe key');
-        setIframeKey(prevKey => prevKey + 1);
-      } else {
-        console.error('React code validation failed:', error);
         setChat(prev => [...prev, { 
           role: 'assistant', 
           content: `⚠️ React Code Error ⚠️\n\n${error}\n\nPlease review your code and fix the issue. Remember:\n- Don't use import statements\n- Ensure you have a valid React component structure\n- Make sure your component returns JSX or null\n- Check for syntax errors like missing brackets or semicolons`, 
           isCode: false 
         }]);
       }
+    } else {
+      console.log('reactCode is empty, skipping validation');
     }
-  }, [reactCode, renderTrigger, validateReactCode]);
+  }, [reactCode, renderTrigger, validateReactCode, setChat]);
 
   return (
     <div className={`flex h-screen ${darkMode ? 'dark' : ''} bg-background-light dark:bg-background-dark`}>
