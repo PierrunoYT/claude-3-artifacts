@@ -33,10 +33,13 @@
    ```
 
 3. Set up environment variables:
-   - Create a `.env` file in the project root
-   - Add your OpenRouter API key:
+   - Copy the `.env.template` file to create a new `.env` file in the project root:
+     ```bash
+     cp .env.template .env
      ```
-     REACT_APP_OPENROUTER_API_KEY=your_api_key_here
+   - Open the `.env` file and replace `your_openrouter_api_key_here` with your actual OpenRouter API key:
+     ```
+     REACT_APP_OPENROUTER_API_KEY=your_actual_api_key_here
      ```
 
 ### Running the Application
