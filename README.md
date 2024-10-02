@@ -1,5 +1,24 @@
 # PierrunoYT/claude-3-artifacts
 
+## ⚠️ Project Archived
+
+This project has been archived and is no longer actively maintained. Please note that no further updates or support will be provided.
+
+### Completing the Archive Process on GitHub
+
+To complete the archiving process on GitHub, please follow these steps:
+
+1. Go to the GitHub repository page for this project.
+2. Click on the "Settings" tab near the top of the page.
+3. Scroll down to the "Danger Zone" section.
+4. Click on the "Archive this repository" button.
+5. Read the warning message and confirm by typing the repository name.
+6. Click "I understand the consequences, archive this repository" to finalize the process.
+
+Once archived, the repository will become read-only, and no new issues, pull requests, or comments can be added.
+
+---
+
 ## Important Update
 **New Version Available**: A new version of this project is now available at [https://github.com/PierrunoYT/claude-3-artifacts-2](https://github.com/PierrunoYT/claude-3-artifacts-2). Please note that the new version is currently under development and is not yet functional. We recommend continuing to use this version until further notice.
 
