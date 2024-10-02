@@ -1,5 +1,8 @@
 # PierrunoYT/claude-3-artifacts
 
+## Important Update
+**New Version Available**: A new version of this project is now available at [https://github.com/PierrunoYT/claude-3-artifacts-2](https://github.com/PierrunoYT/claude-3-artifacts-2). Please note that the new version is currently under development and is not yet functional. We recommend continuing to use this version until further notice.
+
 ## Introduction
 **PierrunoYT/claude-3-artifacts** is an advanced React-based project that provides an interactive user interface for communicating with the Claude 3.5 Sonnet AI model. This application showcases modern web development practices, offering a seamless chat experience and real-time React code rendering capabilities.
 
